@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using web_fitness.Data;
 
 namespace web_fitness
 {
@@ -24,6 +26,10 @@ namespace web_fitness
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            services.AddDbContext<fitnessdataContext>(options =>
+                options.UseSqlite("Data Source=App_Data/fitnessdata.db"));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
