@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
+
 
 
 namespace web_fitness.Models
@@ -11,18 +13,13 @@ namespace web_fitness.Models
     public class Meetings
     {
 
-        modelBuilder.Entity<Participants>()
-        .HasKey(p => new { p.ActivityId , p.ParticipantId
-    });
-
-
         public int MeetID { get; set; }
-        [Column(Order = 0), Key, ForeignKey("TrainerId")]
-        public int TrainerId { get; set; }
-        [Column(Order = 1), Key, ForeignKey("TypeId")]
-        public int TypeId { get; set; }
 
-        [Column(Order = 2), Key, DataType(DataType.Date)]
+        [ForeignKey("TrainerId")]
+        public int TrainerId { get; set; }
+        [ForeignKey("TypeId")]
+        public int TypeId { get; set; }
+        [DataType(DataType.Date)]
         public DateTime MeetDate { get; set; }
 
 
