@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using web_fitness.Models;
 
 namespace web_fitness.Data
 {
@@ -20,6 +21,11 @@ namespace web_fitness.Data
             optionsBuilder.UseSqlite("Data Source=App_Data/fitnessdata.db");
         }
         public DbSet<web_fitness.Models.TrainingType> TrainingTypes { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Meetings>().HasKey(c => new { c.MeetDate, c.TrainerId,c.TypeId });
+        }
 
     }
 }
