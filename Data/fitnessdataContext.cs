@@ -21,6 +21,7 @@ namespace web_fitness.Data
             optionsBuilder.UseSqlite("Data Source=App_Data/fitnessdata.db");
         }
         public DbSet<web_fitness.Models.TrainingType> TrainingTypes { get; set; }
+        public DbSet<web_fitness.Models.Trainers> Trainers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
