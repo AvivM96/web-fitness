@@ -16,33 +16,65 @@ namespace web_fitness.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.0.0");
 
-            modelBuilder.Entity("web_fitness.Models.Meetings", b =>
+            modelBuilder.Entity("web_fitness.Models.Customer", b =>
+                {
+                    b.Property<int>("CustomerId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("CustomerAddress")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(60);
+
+                    b.Property<string>("CustomerCity")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(60);
+
+                    b.Property<string>("CustomerGender")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CustomerName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CustomerPhone")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Mail")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("CustomerId");
+
+                    b.ToTable("Customers");
+                });
+
+            modelBuilder.Entity("web_fitness.Models.Meeting", b =>
                 {
                     b.Property<DateTime>("MeetDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("TrainerId")
+                    b.Property<int>("TrainingTypeID")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("TypeId")
+                    b.Property<int>("TrainerID")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("MeetID")
+                    b.Property<int>("MeetNum")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("TrainTypeTypeId")
-                        .HasColumnType("INTEGER");
+                    b.HasKey("MeetDate", "TrainingTypeID", "TrainerID");
 
-                    b.HasKey("MeetDate", "TrainerId", "TypeId");
+                    b.HasIndex("TrainerID");
 
-                    b.HasIndex("TrainTypeTypeId");
-
-                    b.HasIndex("TrainerId");
+                    b.HasIndex("TrainingTypeID");
 
                     b.ToTable("Meetings");
                 });
 
-            modelBuilder.Entity("web_fitness.Models.Trainers", b =>
+            modelBuilder.Entity("web_fitness.Models.Trainer", b =>
                 {
                     b.Property<int>("TrainerId")
                         .ValueGeneratedOnAdd()
@@ -78,7 +110,7 @@ namespace web_fitness.Migrations
 
             modelBuilder.Entity("web_fitness.Models.TrainingType", b =>
                 {
-                    b.Property<int>("TypeId")
+                    b.Property<int>("TrainingTypeId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -92,20 +124,22 @@ namespace web_fitness.Migrations
                         .HasColumnType("TEXT")
                         .HasMaxLength(60);
 
-                    b.HasKey("TypeId");
+                    b.HasKey("TrainingTypeId");
 
                     b.ToTable("TrainingTypes");
                 });
 
-            modelBuilder.Entity("web_fitness.Models.Meetings", b =>
+            modelBuilder.Entity("web_fitness.Models.Meeting", b =>
                 {
+                    b.HasOne("web_fitness.Models.Trainer", "Trainer")
+                        .WithMany("Meeting")
+                        .HasForeignKey("TrainerID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("web_fitness.Models.TrainingType", "TrainType")
                         .WithMany("Meeting")
-                        .HasForeignKey("TrainTypeTypeId");
-
-                    b.HasOne("web_fitness.Models.Trainers", "Trainer")
-                        .WithMany("Meeting")
-                        .HasForeignKey("TrainerId")
+                        .HasForeignKey("TrainingTypeID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

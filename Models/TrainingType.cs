@@ -10,8 +10,8 @@ namespace web_fitness.Models
     public class TrainingType
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int TypeId { get; set; }
+        [ScaffoldColumn(false)]
+        public int TrainingTypeId { get; set; }
 
         [Required]
         [Display(Name = "Training Name")]
@@ -23,7 +23,8 @@ namespace web_fitness.Models
         [StringLength(60, MinimumLength = 2)]
         public string Target { get; set; }
 
-        public ICollection<Meetings> Meeting { get; set; }
+
+        public ICollection<Meeting> Meeting { get; set; }
 
 
 

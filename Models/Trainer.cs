@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace web_fitness.Models
 {
-    public class Trainers
+    public class Trainer
     {
 
         [Key]
@@ -40,7 +40,7 @@ namespace web_fitness.Models
         public string City { get; set; }
 
 
-        public ICollection<Meetings> Meeting { get; set; }
+        public ICollection<Meeting> Meeting { get; set; }
 
 
 

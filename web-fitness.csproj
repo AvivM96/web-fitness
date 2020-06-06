@@ -1,9 +1,50 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>web_fitness</RootNamespace>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20200606085154_InitialCreate.cs" />
+    <Compile Remove="Migrations\20200606085154_InitialCreate.Designer.cs" />
+    <Compile Remove="Migrations\20200606085327_InitialCreate.cs" />
+    <Compile Remove="Migrations\20200606085327_InitialCreate.Designer.cs" />
+    <Compile Remove="Migrations\20200606091021_InitialCreate.cs" />
+    <Compile Remove="Migrations\20200606091021_InitialCreate.Designer.cs" />
+    <Compile Remove="Migrations\20200606091151_InitialCreate1.cs" />
+    <Compile Remove="Migrations\20200606091151_InitialCreate1.Designer.cs" />
+    <Compile Remove="Migrations\20200606091418_InitialCreate1.cs" />
+    <Compile Remove="Migrations\20200606091418_InitialCreate1.Designer.cs" />
+    <Compile Remove="Migrations\20200606091559_InitialCreate1.cs" />
+    <Compile Remove="Migrations\20200606091559_InitialCreate1.Designer.cs" />
+    <Compile Remove="Migrations\20200606092453_InitialCreate.cs" />
+    <Compile Remove="Migrations\20200606092453_InitialCreate.Designer.cs" />
+    <Compile Remove="Migrations\20200606095414_InitialCreate.cs" />
+    <Compile Remove="Migrations\20200606095414_InitialCreate.Designer.cs" />
+    <Compile Remove="Migrations\20200606100315_First.cs" />
+    <Compile Remove="Migrations\20200606100315_First.Designer.cs" />
+    <Compile Remove="Migrations\20200606100557_InitCreate.cs" />
+    <Compile Remove="Migrations\20200606100557_InitCreate.Designer.cs" />
+    <Compile Remove="Migrations\20200606100745_InitCreate.cs" />
+    <Compile Remove="Migrations\20200606100745_InitCreate.Designer.cs" />
+    <Compile Remove="Migrations\20200606101557_InitCreate.cs" />
+    <Compile Remove="Migrations\20200606101557_InitCreate.Designer.cs" />
+    <Compile Remove="Migrations\20200606102203_Initial.cs" />
+    <Compile Remove="Migrations\20200606102203_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20200606102713_Initial.cs" />
+    <Compile Remove="Migrations\20200606102713_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20200606103544_Initial.cs" />
+    <Compile Remove="Migrations\20200606103544_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20200606103923_Initial.cs" />
+    <Compile Remove="Migrations\20200606103923_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20200606104511_Initial.cs" />
+    <Compile Remove="Migrations\20200606104511_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20200606104915_Initial.cs" />
+    <Compile Remove="Migrations\20200606104915_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20200606111534_Initial.cs" />
+    <Compile Remove="Migrations\20200606111534_Initial.Designer.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.0.0" />
