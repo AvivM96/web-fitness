@@ -24,13 +24,14 @@ namespace web_fitness.Controllers
         // GET: /<controller>/
         public IActionResult Index()
         {
+            Console.WriteLine();
             return View();
         }
 
         public async Task<ActionResult> Details(string id)
         {
-            var trainer = await _context.Trainers.SingleOrDefaultAsync(t => t.TrainerName == "Aviv Moshe");
-
+            ViewData["test"] = id;
+            var trainer = await _context.Trainers.SingleOrDefaultAsync(t => t.TrainerName == "Aviv Test");
             return View(trainer);
         }
     }

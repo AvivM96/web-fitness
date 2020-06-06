@@ -22,6 +22,9 @@ namespace web_fitness.Data
         }
         public DbSet<web_fitness.Models.TrainingType> TrainingTypes { get; set; }
         public DbSet<web_fitness.Models.Trainers> Trainers { get; set; }
+        public DbSet<web_fitness.Models.Customer> Customer { get; set; }
+        public DbSet<web_fitness.Models.Location> Location { get; set; }
+        public DbSet<web_fitness.Models.Meetings> Meetings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -25,8 +25,5 @@ namespace web_fitness.Models
 
         public ICollection<Meetings> Meeting { get; set; }
 
-
-
-
     }
 }
