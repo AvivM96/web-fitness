@@ -8,6 +8,24 @@ namespace web_fitness.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Customers",
+                columns: table => new
+                {
+                    CustomerId = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Mail = table.Column<string>(nullable: true),
+                    CustomerName = table.Column<string>(nullable: false),
+                    CustomerPhone = table.Column<string>(nullable: true),
+                    CustomerGender = table.Column<string>(nullable: true),
+                    CustomerAddress = table.Column<string>(maxLength: 60, nullable: false),
+                    CustomerCity = table.Column<string>(maxLength: 60, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Customers", x => x.CustomerId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Trainers",
                 columns: table => new
                 {
@@ -29,64 +47,67 @@ namespace web_fitness.Migrations
                 name: "TrainingTypes",
                 columns: table => new
                 {
-                    TypeId = table.Column<int>(nullable: false)
+                    TrainingTypeId = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(maxLength: 60, nullable: false),
                     Target = table.Column<string>(maxLength: 60, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TrainingTypes", x => x.TypeId);
+                    table.PrimaryKey("PK_TrainingTypes", x => x.TrainingTypeId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Meetings",
                 columns: table => new
                 {
-                    TrainerId = table.Column<int>(nullable: false),
-                    TypeId = table.Column<int>(nullable: false),
+                    TrainingTypeID = table.Column<int>(nullable: false),
+                    TrainerID = table.Column<int>(nullable: false),
                     MeetDate = table.Column<DateTime>(nullable: false),
-                    MeetID = table.Column<int>(nullable: false),
-                    TrainTypeTypeId = table.Column<int>(nullable: true)
+                    MeetNum = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Meetings", x => new { x.MeetDate, x.TrainerId, x.TypeId });
+                    table.PrimaryKey("PK_Meetings", x => new { x.MeetDate, x.TrainingTypeID, x.TrainerID });
                     table.ForeignKey(
-                        name: "FK_Meetings_TrainingTypes_TrainTypeTypeId",
-                        column: x => x.TrainTypeTypeId,
-                        principalTable: "TrainingTypes",
-                        principalColumn: "TypeId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Meetings_Trainers_TrainerId",
-                        column: x => x.TrainerId,
+                        name: "FK_Meetings_Trainers_TrainerID",
+                        column: x => x.TrainerID,
                         principalTable: "Trainers",
                         principalColumn: "TrainerId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Meetings_TrainingTypes_TrainingTypeID",
+                        column: x => x.TrainingTypeID,
+                        principalTable: "TrainingTypes",
+                        principalColumn: "TrainingTypeId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Meetings_TrainTypeTypeId",
+                name: "IX_Meetings_TrainerID",
                 table: "Meetings",
-                column: "TrainTypeTypeId");
+                column: "TrainerID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Meetings_TrainerId",
+                name: "IX_Meetings_TrainingTypeID",
                 table: "Meetings",
-                column: "TrainerId");
+                column: "TrainingTypeID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Customers");
+
+            migrationBuilder.DropTable(
                 name: "Meetings");
 
             migrationBuilder.DropTable(
-                name: "TrainingTypes");
+                name: "Trainers");
 
             migrationBuilder.DropTable(
-                name: "Trainers");
+                name: "TrainingTypes");
         }
     }
 }
