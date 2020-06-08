@@ -15,25 +15,21 @@ namespace web_fitness.Data
 {
     public class fitnessdataContext : DbContext
     {
-      //  public fitnessdataContext() : base("fitnessdataContext")
-        //{
-        //}
-
         public fitnessdataContext(DbContextOptions<fitnessdataContext> options): base(options)
         {
+            Database.EnsureCreated();
         }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             string codeBase = Assembly.GetExecutingAssembly().CodeBase;
             optionsBuilder.UseSqlite("Data Source=App_Data/fitnessdata.db");
         }
+
         public DbSet<web_fitness.Models.TrainingType> TrainingTypes { get; set; }
         public DbSet<web_fitness.Models.Trainer> Trainers { get; set; }
-        public DbSet<web_fitness.Models.Meeting> Meetings { get; set; }
-        public DbSet<web_fitness.Models.Customer> Customers { get; set; }
-
-
-
+        public DbSet<web_fitness.Models.Meeting> Meeting { get; set; }
+        public DbSet<web_fitness.Models.Customer> Customer { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
