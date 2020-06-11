@@ -25,22 +25,32 @@ namespace web_fitness.Data
                 }
                 context.SaveChanges();
             }
-            /*
-                        if (!context.Sublets.Any())
-                        {
-                            var sublets = new SubletModel[]
-                            {
-                            new SubletModel{Title= "Sublet1",ApartmentKey=4, StartDate = new DateTime(2008, 5, 1), EndDate = new DateTime(2008, 5, 7), Price = 4000 },
-                            new SubletModel{Title= "Sublet2",ApartmentKey=5, StartDate = new DateTime(2019, 5, 1), EndDate = new DateTime(2019, 5, 5), Price = 2000},
-                            };
-                            foreach (SubletModel a in sublets)
-                            {
-                                context.Sublets.Add(a);
-                            }
-                            context.SaveChanges();
-                        }
-                    }
-                    */
+            if (!context.Trainers.Any())
+            {
+                var t = new Trainer[]
+                {
+                new Trainer{TrainerName="Gil", TrainerPhone="050000000", Mail="gil@mail.com", TrainerGender="male", Address="Where", City="There"},
+                new Trainer{TrainerName="Gil2", TrainerPhone="050000002", Mail="gil2@mail.com", TrainerGender="male", Address="Where", City="There"},
+                };
+                foreach (Trainer a in t)
+                {
+                    context.Trainers.Add(a);
+                }
+                context.SaveChanges();
+            }
+            if (!context.Meetings.Any())
+            {
+                var m = new Meeting[]
+                {
+                new Meeting{MeetNum=1, Trainer=context.Trainers.First(), TrainType=context.TrainingTypes.First(), MeetDate=DateTime.Now},
+                new Meeting{MeetNum=2, Trainer=context.Trainers.First(), TrainType=context.TrainingTypes.First(), MeetDate=DateTime.Now},
+                };
+                foreach (Meeting a in m)
+                {
+                    context.Meetings.Add(a);
+                }
+                context.SaveChanges();
+            }
         }
     }
 }

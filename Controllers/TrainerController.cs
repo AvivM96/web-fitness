@@ -24,7 +24,6 @@ namespace web_fitness.Controllers
         // GET: /<controller>/
         public IActionResult Index()
         {
-            Console.WriteLine();
             return View();
         }
 
