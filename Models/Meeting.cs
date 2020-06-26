@@ -12,7 +12,8 @@ namespace web_fitness.Models
 {
     public class Meeting
     {
-
+        [Key]
+        public int MeetID { get; set; }
 
         [ForeignKey("TrainingTypeID")]
         public int TrainingTypeID { get; set; }
@@ -24,7 +25,6 @@ namespace web_fitness.Models
         public DateTime MeetDate { get; set; }
 
        
-        public int MeetNum { get { return MeetNum; } set { MeetNum = MyHash(this.TrainerID,this.TrainingTypeID,MeetDate); } }
 
         public int MyHash (int a,int b, DateTime c)
         {

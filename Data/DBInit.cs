@@ -42,8 +42,8 @@ namespace web_fitness.Data
             {
                 var m = new Meeting[]
                 {
-                new Meeting{MeetNum=1, Trainer=context.Trainers.First(), TrainType=context.TrainingTypes.First(), MeetDate=DateTime.Now},
-                new Meeting{MeetNum=2, Trainer=context.Trainers.First(), TrainType=context.TrainingTypes.First(), MeetDate=DateTime.Now},
+               // new Meeting{MeetNum=1, Trainer=context.Trainers.First(), TrainType=context.TrainingTypes.First(), MeetDate=DateTime.Now},
+                //new Meeting{MeetNum=2, Trainer=context.Trainers.First(), TrainType=context.TrainingTypes.First(), MeetDate=DateTime.Now},
                 };
                 foreach (Meeting a in m)
                 {

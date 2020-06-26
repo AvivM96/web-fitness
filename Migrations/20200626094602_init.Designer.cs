@@ -9,14 +9,14 @@ using web_fitness.Data;
 namespace web_fitness.Migrations
 {
     [DbContext(typeof(fitnessdataContext))]
-    [Migration("20200606113441_Initial")]
-    partial class Initial
+    [Migration("20200626094602_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.0.0");
+                .HasAnnotation("ProductVersion", "3.1.5");
 
             modelBuilder.Entity("web_fitness.Models.Customer", b =>
                 {
@@ -54,20 +54,20 @@ namespace web_fitness.Migrations
 
             modelBuilder.Entity("web_fitness.Models.Meeting", b =>
                 {
+                    b.Property<int>("MeetID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
                     b.Property<DateTime>("MeetDate")
                         .HasColumnType("TEXT");
-
-                    b.Property<int>("TrainingTypeID")
-                        .HasColumnType("INTEGER");
 
                     b.Property<int>("TrainerID")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("MeetNum")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("TrainingTypeID")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("MeetDate", "TrainingTypeID", "TrainerID");
+                    b.HasKey("MeetID");
 
                     b.HasIndex("TrainerID");
 

@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿
 using System.Reflection;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using web_fitness.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Storage;
-using web_fitness.Models;
 using web_fitness.Data;
 
 namespace web_fitness.Data
@@ -33,9 +29,10 @@ namespace web_fitness.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-           modelBuilder.Entity<Meeting>().HasKey(c => new { c.MeetDate,c.TrainingTypeID, c.TrainerID});
+            //modelBuilder.Entity<Meeting>().HasKey(c => new { c.MeetDate,c.TrainingTypeID, c.TrainerID});
+           // modelBuilder.Entity<Meeting>().has(p => p.AuthorFK);
 
-           modelBuilder.Entity<Meeting>().Property(p => p.MeetNum).ValueGeneratedOnAdd();
+            //modelBuilder.Entity<Meeting>().Property(p => p.MeetNum).ValueGeneratedOnAdd();
         }
 
     }
