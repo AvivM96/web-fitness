@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace web_fitness.Migrations
 {
-    public partial class Initial : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -61,15 +61,15 @@ namespace web_fitness.Migrations
                 name: "Meetings",
                 columns: table => new
                 {
+                    MeetID = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
                     TrainingTypeID = table.Column<int>(nullable: false),
                     TrainerID = table.Column<int>(nullable: false),
-                    MeetDate = table.Column<DateTime>(nullable: false),
-                    MeetNum = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true)
+                    MeetDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Meetings", x => new { x.MeetDate, x.TrainingTypeID, x.TrainerID });
+                    table.PrimaryKey("PK_Meetings", x => x.MeetID);
                     table.ForeignKey(
                         name: "FK_Meetings_Trainers_TrainerID",
                         column: x => x.TrainerID,

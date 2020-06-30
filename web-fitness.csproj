@@ -6,61 +6,29 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20200606085154_InitialCreate.cs" />
-    <Compile Remove="Migrations\20200606085154_InitialCreate.Designer.cs" />
-    <Compile Remove="Migrations\20200606085327_InitialCreate.cs" />
-    <Compile Remove="Migrations\20200606085327_InitialCreate.Designer.cs" />
-    <Compile Remove="Migrations\20200606091021_InitialCreate.cs" />
-    <Compile Remove="Migrations\20200606091021_InitialCreate.Designer.cs" />
-    <Compile Remove="Migrations\20200606091151_InitialCreate1.cs" />
-    <Compile Remove="Migrations\20200606091151_InitialCreate1.Designer.cs" />
-    <Compile Remove="Migrations\20200606091418_InitialCreate1.cs" />
-    <Compile Remove="Migrations\20200606091418_InitialCreate1.Designer.cs" />
-    <Compile Remove="Migrations\20200606091559_InitialCreate1.cs" />
-    <Compile Remove="Migrations\20200606091559_InitialCreate1.Designer.cs" />
-    <Compile Remove="Migrations\20200606092453_InitialCreate.cs" />
-    <Compile Remove="Migrations\20200606092453_InitialCreate.Designer.cs" />
-    <Compile Remove="Migrations\20200606095414_InitialCreate.cs" />
-    <Compile Remove="Migrations\20200606095414_InitialCreate.Designer.cs" />
-    <Compile Remove="Migrations\20200606100315_First.cs" />
-    <Compile Remove="Migrations\20200606100315_First.Designer.cs" />
-    <Compile Remove="Migrations\20200606100557_InitCreate.cs" />
-    <Compile Remove="Migrations\20200606100557_InitCreate.Designer.cs" />
-    <Compile Remove="Migrations\20200606100745_InitCreate.cs" />
-    <Compile Remove="Migrations\20200606100745_InitCreate.Designer.cs" />
-    <Compile Remove="Migrations\20200606101557_InitCreate.cs" />
-    <Compile Remove="Migrations\20200606101557_InitCreate.Designer.cs" />
-    <Compile Remove="Migrations\20200606102203_Initial.cs" />
-    <Compile Remove="Migrations\20200606102203_Initial.Designer.cs" />
-    <Compile Remove="Migrations\20200606102713_Initial.cs" />
-    <Compile Remove="Migrations\20200606102713_Initial.Designer.cs" />
-    <Compile Remove="Migrations\20200606103544_Initial.cs" />
-    <Compile Remove="Migrations\20200606103544_Initial.Designer.cs" />
-    <Compile Remove="Migrations\20200606103923_Initial.cs" />
-    <Compile Remove="Migrations\20200606103923_Initial.Designer.cs" />
-    <Compile Remove="Migrations\20200606104511_Initial.cs" />
-    <Compile Remove="Migrations\20200606104511_Initial.Designer.cs" />
-    <Compile Remove="Migrations\20200606104915_Initial.cs" />
-    <Compile Remove="Migrations\20200606104915_Initial.Designer.cs" />
-    <Compile Remove="Migrations\20200606111534_Initial.cs" />
-    <Compile Remove="Migrations\20200606111534_Initial.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.0.0">
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Runtime" Version="2.2.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="3.6.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.5">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.NETCore.App" Version="2.2.8" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.3" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="System.Runtime.Serialization.Json" Version="4.3.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.4" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Trainer\" />
     <Folder Include="Views\Meeting\" />
   </ItemGroup>
 
