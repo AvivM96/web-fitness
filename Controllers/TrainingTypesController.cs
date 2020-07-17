@@ -54,7 +54,7 @@ namespace web_fitness.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Target")] TrainingType trainingType)
+        public async Task<IActionResult> Create([Bind("TrainingTypeId,Name,Target")] TrainingType trainingType)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace web_fitness.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Name,Target")] TrainingType trainingType)
+        public async Task<IActionResult> Edit(int id, [Bind("TrainingTypeId,Name,Target")] TrainingType trainingType)
         { 
             if (ModelState.IsValid)
             {

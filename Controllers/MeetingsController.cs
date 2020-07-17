@@ -20,10 +20,23 @@ namespace web_fitness.Controllers
         }
 
         // GET: Meetings
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? training_type)
         {
-            var fitnessdataContext = _context.Meetings.Include(m => m.TrainType).Include(m => m.Trainer);
-            return View(await fitnessdataContext.ToListAsync());
+            List<Meeting> meetings;
+            if (training_type != null)
+            {
+                meetings = await _context.Meetings
+                    .Include(m => m.TrainType)
+                    .Include(m => m.Trainer)
+                    .Where(m => m.TrainingTypeID == training_type).ToListAsync();
+            }
+            else
+            {
+                meetings = await _context.Meetings
+                    .Include(m => m.TrainType)
+                    .Include(m => m.Trainer).ToListAsync();
+            }
+            return View(meetings);
         }
 
         // GET: Meetings/Details/5
@@ -59,7 +72,7 @@ namespace web_fitness.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("TrainingTypeID,TrainerID,MeetDate,MeetNum")] Meeting meeting)
+        public async Task<IActionResult> Create([Bind("MeetID,TrainingTypeID,TrainerID,MeetDate")] Meeting meeting)
         {
             if (ModelState.IsValid)
             {
@@ -67,8 +80,8 @@ namespace web_fitness.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["TrainingTypeID"] = new SelectList(_context.TrainingTypes, "TrainingTypeId", "Name", meeting.TrainingTypeID);
-            ViewData["TrainerID"] = new SelectList(_context.Trainers, "TrainerIDe", "TraineriD", meeting.TrainerID);
+            ViewData["TrainingTypeID"] = new SelectList(_context.TrainingTypes, "TrainingTypeId", "Name");
+            ViewData["TrainerID"] = new SelectList(_context.Trainers, "TrainerId", "Mail");
             return View(meeting);
         }
 
@@ -80,13 +93,17 @@ namespace web_fitness.Controllers
                 return NotFound();
             }
 
-            var meeting = await _context.Meetings.FindAsync(id);
-            if (meeting == null)
+            var meeting = await _context.Meetings
+                .Include(m => m.TrainType)
+                .Include(m => m.Trainer)
+                .FirstOrDefaultAsync(m => m.MeetID == id);
+
+             if (meeting == null)
             {
                 return NotFound();
             }
-            ViewData["TrainingTypeID"] = new SelectList(_context.TrainingTypes, "TrainingTypeId", "Name", meeting.TrainingTypeID);
-            ViewData["TrainerID"] = new SelectList(_context.Trainers, "Trainer", "Mail", meeting.TrainerID);
+            ViewData["TrainingTypeID"] = new SelectList(_context.TrainingTypes, "TrainingTypeId", "Name");
+            ViewData["TrainerID"] = new SelectList(_context.Trainers, "TrainerId", "Mail");
             return View(meeting);
         }
 
@@ -95,7 +112,7 @@ namespace web_fitness.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("TrainingTypeID,TrainerID,MeetDate,MeetNum")] Meeting meeting)
+        public async Task<IActionResult> Edit(int id, [Bind("MeetID,TrainingTypeID,TrainerID,MeetDate")] Meeting meeting)
         {
             if (ModelState.IsValid)
             {
@@ -118,7 +135,7 @@ namespace web_fitness.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["TrainingTypeID"] = new SelectList(_context.TrainingTypes, "TrainingTypeId", "Name", meeting.TrainingTypeID);
-            ViewData["TrainerID"] = new SelectList(_context.Trainers, "Trainer", "Mail", meeting.TrainerID);
+            ViewData["TrainerID"] = new SelectList(_context.Trainers, "TrainerId", "Mail", meeting.TrainerID);
             return View(meeting);
         }
 
