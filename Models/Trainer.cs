@@ -14,7 +14,6 @@ namespace web_fitness.Models
         [ScaffoldColumn(false)]
         public int TrainerId { get; set; }
 
-
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
         [Display(Name = "Trainer Mail")]
         public string Mail { get; set; }
