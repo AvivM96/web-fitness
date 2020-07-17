@@ -88,11 +88,6 @@ namespace web_fitness.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Mail,TrainerName,TrainerPhone,TrainerGender,Address,City")] Trainer trainer)
         {
-            if (id != trainer.TrainerId)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 try

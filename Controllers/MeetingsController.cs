@@ -27,7 +27,7 @@ namespace web_fitness.Controllers
         }
 
         // GET: Meetings/Details/5
-        public async Task<IActionResult> Details(DateTime? id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
@@ -37,7 +37,7 @@ namespace web_fitness.Controllers
             var meeting = await _context.Meetings
                 .Include(m => m.TrainType)
                 .Include(m => m.Trainer)
-                .FirstOrDefaultAsync(m => m.MeetDate == id);
+                .FirstOrDefaultAsync(m => m.MeetID == id);
             if (meeting == null)
             {
                 return NotFound();
@@ -50,7 +50,7 @@ namespace web_fitness.Controllers
         public IActionResult Create()
         {
             ViewData["TrainingTypeID"] = new SelectList(_context.TrainingTypes, "TrainingTypeId", "Name");
-            ViewData["TrainerID"] = new SelectList(_context.Trainers, "TrainerId", "Address");
+            ViewData["TrainerID"] = new SelectList(_context.Trainers, "TrainerId", "Mail");
             return View();
         }
 
@@ -73,7 +73,7 @@ namespace web_fitness.Controllers
         }
 
         // GET: Meetings/Edit/5
-        public async Task<IActionResult> Edit(DateTime? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
@@ -86,7 +86,7 @@ namespace web_fitness.Controllers
                 return NotFound();
             }
             ViewData["TrainingTypeID"] = new SelectList(_context.TrainingTypes, "TrainingTypeId", "Name", meeting.TrainingTypeID);
-            ViewData["TrainerID"] = new SelectList(_context.Trainers, "TrainerId", "Address", meeting.TrainerID);
+            ViewData["TrainerID"] = new SelectList(_context.Trainers, "Trainer", "Mail", meeting.TrainerID);
             return View(meeting);
         }
 
@@ -95,13 +95,8 @@ namespace web_fitness.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(DateTime id, [Bind("TrainingTypeID,TrainerID,MeetDate,MeetNum")] Meeting meeting)
+        public async Task<IActionResult> Edit(int id, [Bind("TrainingTypeID,TrainerID,MeetDate,MeetNum")] Meeting meeting)
         {
-            if (id != meeting.MeetDate)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 try
@@ -111,7 +106,7 @@ namespace web_fitness.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!MeetingExists(meeting.MeetDate))
+                    if (!MeetingExists(meeting.MeetID))
                     {
                         return NotFound();
                     }
@@ -123,12 +118,12 @@ namespace web_fitness.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["TrainingTypeID"] = new SelectList(_context.TrainingTypes, "TrainingTypeId", "Name", meeting.TrainingTypeID);
-            ViewData["TrainerID"] = new SelectList(_context.Trainers, "TrainerId", "Address", meeting.TrainerID);
+            ViewData["TrainerID"] = new SelectList(_context.Trainers, "Trainer", "Mail", meeting.TrainerID);
             return View(meeting);
         }
 
         // GET: Meetings/Delete/5
-        public async Task<IActionResult> Delete(DateTime? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
@@ -138,7 +133,7 @@ namespace web_fitness.Controllers
             var meeting = await _context.Meetings
                 .Include(m => m.TrainType)
                 .Include(m => m.Trainer)
-                .FirstOrDefaultAsync(m => m.MeetDate == id);
+                .FirstOrDefaultAsync(m => m.MeetID == id);
             if (meeting == null)
             {
                 return NotFound();
@@ -146,6 +141,7 @@ namespace web_fitness.Controllers
 
             return View(meeting);
         }
+
         public async Task<IActionResult> List(string eventTypeName)
         {
             var meetings_of_type = await _context.Meetings.Where(m => m.TrainType.Name == eventTypeName).ToListAsync();
@@ -155,7 +151,7 @@ namespace web_fitness.Controllers
         // POST: Meetings/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(DateTime id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var meeting = await _context.Meetings.FindAsync(id);
             _context.Meetings.Remove(meeting);
@@ -163,9 +159,9 @@ namespace web_fitness.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool MeetingExists(DateTime id)
+        private bool MeetingExists(int id)
         {
-            return _context.Meetings.Any(e => e.MeetDate == id);
+            return _context.Meetings.Any(e => e.MeetID == id);
         }
     }
 }

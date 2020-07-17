@@ -87,12 +87,7 @@ namespace web_fitness.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Name,Target")] TrainingType trainingType)
-        {
-            if (id != trainingType.TrainingTypeId)
-            {
-                return NotFound();
-            }
-
+        { 
             if (ModelState.IsValid)
             {
                 try
