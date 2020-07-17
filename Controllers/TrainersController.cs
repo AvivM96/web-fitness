@@ -58,8 +58,15 @@ namespace web_fitness.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(trainer);
-                await _context.SaveChangesAsync();
+                try
+                {
+                    _context.Update(trainer);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateException)
+                {
+                    return View(trainer);
+                }
                 return RedirectToAction(nameof(Index));
             }
             return View(trainer);

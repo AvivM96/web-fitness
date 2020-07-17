@@ -9,7 +9,7 @@ using web_fitness.Data;
 namespace web_fitness.Migrations
 {
     [DbContext(typeof(fitnessdataContext))]
-    [Migration("20200626094602_init")]
+    [Migration("20200717094549_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -106,6 +106,9 @@ namespace web_fitness.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("TrainerId");
+
+                    b.HasIndex("Mail")
+                        .IsUnique();
 
                     b.ToTable("Trainers");
                 });

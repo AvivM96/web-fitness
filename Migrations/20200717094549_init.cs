@@ -93,6 +93,12 @@ namespace web_fitness.Migrations
                 name: "IX_Meetings_TrainingTypeID",
                 table: "Meetings",
                 column: "TrainingTypeID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Trainers_Mail",
+                table: "Trainers",
+                column: "Mail",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

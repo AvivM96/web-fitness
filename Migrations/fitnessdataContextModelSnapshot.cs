@@ -105,6 +105,9 @@ namespace web_fitness.Migrations
 
                     b.HasKey("TrainerId");
 
+                    b.HasIndex("Mail")
+                        .IsUnique();
+
                     b.ToTable("Trainers");
                 });
 
