@@ -17,17 +17,33 @@ namespace web_fitness.Controllers
         public MeetingsController(fitnessdataContext context)
         {
             _context = context;
+            TrainbyCityGraph();
+            CountMeetingbyTypeGraph();
         }
 
+
         // GET: Meetings
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? training_type)
         {
-            var fitnessdataContext = _context.Meetings.Include(m => m.TrainType).Include(m => m.Trainer);
-            return View(await fitnessdataContext.ToListAsync());
+            List<Meeting> meetings;
+            if (training_type != null)
+            {
+                meetings = await _context.Meetings
+                    .Include(m => m.TrainType)
+                    .Include(m => m.Trainer)
+                    .Where(m => m.TrainingTypeID == training_type).ToListAsync();
+            }
+            else
+            {
+                meetings = await _context.Meetings
+                    .Include(m => m.TrainType)
+                    .Include(m => m.Trainer).ToListAsync();
+            }
+            return View(meetings);
         }
 
         // GET: Meetings/Details/5
-        public async Task<IActionResult> Details(DateTime? id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
@@ -37,7 +53,7 @@ namespace web_fitness.Controllers
             var meeting = await _context.Meetings
                 .Include(m => m.TrainType)
                 .Include(m => m.Trainer)
-                .FirstOrDefaultAsync(m => m.MeetDate == id);
+                .FirstOrDefaultAsync(m => m.MeetID == id);
             if (meeting == null)
             {
                 return NotFound();
@@ -50,7 +66,7 @@ namespace web_fitness.Controllers
         public IActionResult Create()
         {
             ViewData["TrainingTypeID"] = new SelectList(_context.TrainingTypes, "TrainingTypeId", "Name");
-            ViewData["TrainerID"] = new SelectList(_context.Trainers, "TrainerId", "Address");
+            ViewData["TrainerID"] = new SelectList(_context.Trainers, "TrainerId", "Mail");
             return View();
         }
 
@@ -59,7 +75,7 @@ namespace web_fitness.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("TrainingTypeID,TrainerID,MeetDate,MeetNum")] Meeting meeting)
+        public async Task<IActionResult> Create([Bind("MeetID,TrainingTypeID,TrainerID,MeetDate")] Meeting meeting)
         {
             if (ModelState.IsValid)
             {
@@ -67,26 +83,30 @@ namespace web_fitness.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["TrainingTypeID"] = new SelectList(_context.TrainingTypes, "TrainingTypeId", "Name", meeting.TrainingTypeID);
-            ViewData["TrainerID"] = new SelectList(_context.Trainers, "TrainerIDe", "TraineriD", meeting.TrainerID);
+            ViewData["TrainingTypeID"] = new SelectList(_context.TrainingTypes, "TrainingTypeId", "Name");
+            ViewData["TrainerID"] = new SelectList(_context.Trainers, "TrainerId", "Mail");
             return View(meeting);
         }
 
         // GET: Meetings/Edit/5
-        public async Task<IActionResult> Edit(DateTime? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var meeting = await _context.Meetings.FindAsync(id);
-            if (meeting == null)
+            var meeting = await _context.Meetings
+                .Include(m => m.TrainType)
+                .Include(m => m.Trainer)
+                .FirstOrDefaultAsync(m => m.MeetID == id);
+
+             if (meeting == null)
             {
                 return NotFound();
             }
-            ViewData["TrainingTypeID"] = new SelectList(_context.TrainingTypes, "TrainingTypeId", "Name", meeting.TrainingTypeID);
-            ViewData["TrainerID"] = new SelectList(_context.Trainers, "TrainerId", "Address", meeting.TrainerID);
+            ViewData["TrainingTypeID"] = new SelectList(_context.TrainingTypes, "TrainingTypeId", "Name");
+            ViewData["TrainerID"] = new SelectList(_context.Trainers, "TrainerId", "Mail");
             return View(meeting);
         }
 
@@ -95,13 +115,8 @@ namespace web_fitness.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(DateTime id, [Bind("TrainingTypeID,TrainerID,MeetDate,MeetNum")] Meeting meeting)
+        public async Task<IActionResult> Edit(int id, [Bind("MeetID,TrainingTypeID,TrainerID,MeetDate")] Meeting meeting)
         {
-            if (id != meeting.MeetDate)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 try
@@ -111,7 +126,7 @@ namespace web_fitness.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!MeetingExists(meeting.MeetDate))
+                    if (!MeetingExists(meeting.MeetID))
                     {
                         return NotFound();
                     }
@@ -123,12 +138,12 @@ namespace web_fitness.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["TrainingTypeID"] = new SelectList(_context.TrainingTypes, "TrainingTypeId", "Name", meeting.TrainingTypeID);
-            ViewData["TrainerID"] = new SelectList(_context.Trainers, "TrainerId", "Address", meeting.TrainerID);
+            ViewData["TrainerID"] = new SelectList(_context.Trainers, "TrainerId", "Mail", meeting.TrainerID);
             return View(meeting);
         }
 
         // GET: Meetings/Delete/5
-        public async Task<IActionResult> Delete(DateTime? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
@@ -138,7 +153,7 @@ namespace web_fitness.Controllers
             var meeting = await _context.Meetings
                 .Include(m => m.TrainType)
                 .Include(m => m.Trainer)
-                .FirstOrDefaultAsync(m => m.MeetDate == id);
+                .FirstOrDefaultAsync(m => m.MeetID == id);
             if (meeting == null)
             {
                 return NotFound();
@@ -146,6 +161,7 @@ namespace web_fitness.Controllers
 
             return View(meeting);
         }
+
         public async Task<IActionResult> List(string eventTypeName)
         {
             var meetings_of_type = await _context.Meetings.Where(m => m.TrainType.Name == eventTypeName).ToListAsync();
@@ -155,7 +171,7 @@ namespace web_fitness.Controllers
         // POST: Meetings/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(DateTime id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var meeting = await _context.Meetings.FindAsync(id);
             _context.Meetings.Remove(meeting);
@@ -163,9 +179,77 @@ namespace web_fitness.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool MeetingExists(DateTime id)
+        private bool MeetingExists(int id)
         {
-            return _context.Meetings.Any(e => e.MeetDate == id);
+            return _context.Meetings.Any(e => e.MeetID == id);
         }
+
+
+        public void TrainbyCityGraph() //create data for the first graph
+        { //calculate the train meetings  per city
+            var trainPerCity = from s in _context.Meetings
+                               join a in _context.Trainers
+                               on s.TrainerID equals a.TrainerId
+                               group a by a.City into city_count
+                               select new
+                               {
+                                   key = city_count.Key,
+                                   Count = city_count.Count()
+                               };
+            string path = "wwwroot\\TrainbyCity.csv";
+            try
+            {
+                System.IO.StreamWriter writer;
+                System.IO.FileStream file = System.IO.File.Open(path, System.IO.FileMode.OpenOrCreate);
+                file.Close();
+                writer = new System.IO.StreamWriter(path);
+                writer.Write("City" + "," + "train\n");
+                foreach (var s in trainPerCity)
+                {
+                    writer.Write(s.key + "," + s.Count + "\n");
+                    writer.Flush();
+                }
+                file.Close();
+                writer.Close();
+            }
+            catch
+            {
+            }
+
+        }
+
+        public void CountMeetingbyTypeGraph() //create data for the second graph
+        {
+            //calculate the amount of apartments by the number of rooms
+            var MeetingbyType = from s in _context.Meetings
+                                join ty in _context.TrainingTypes
+                                on s.TrainingTypeID equals ty.TrainingTypeId
+                                group ty by ty.Name into meetings_count
+                                select new
+                                {
+                                    key = meetings_count.Key,
+                                    Count = meetings_count.Count()
+                                };
+            string path = "wwwroot\\CountMeetingbyType.csv";
+            try
+            {
+                System.IO.StreamWriter writer;
+                System.IO.FileStream file = System.IO.File.Open(path, System.IO.FileMode.OpenOrCreate);
+                file.Close();
+                writer = new System.IO.StreamWriter(path);
+                writer.Write("Training_type" + "," + "AmountOfMeetings\n");
+                foreach (var a in MeetingbyType)
+                {
+                    writer.Write(a.key + "," + a.Count + "\n");
+                    writer.Flush();
+                }
+                file.Close();
+                writer.Close();
+            }
+            catch
+            {
+            }
+        }
+
     }
 }

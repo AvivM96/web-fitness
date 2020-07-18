@@ -54,12 +54,19 @@ namespace web_fitness.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Mail,TrainerName,TrainerPhone,TrainerGender,Address,City")] Trainer trainer)
+        public async Task<IActionResult> Create([Bind("TrainerId,Mail,TrainerName,TrainerPhone,TrainerGender,Address,City")] Trainer trainer)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(trainer);
-                await _context.SaveChangesAsync();
+                try
+                {
+                    _context.Update(trainer);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateException)
+                {
+                    return View(trainer);
+                }
                 return RedirectToAction(nameof(Index));
             }
             return View(trainer);
@@ -86,13 +93,8 @@ namespace web_fitness.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Mail,TrainerName,TrainerPhone,TrainerGender,Address,City")] Trainer trainer)
+        public async Task<IActionResult> Edit(int id, [Bind("TrainerId,Mail,TrainerName,TrainerPhone,TrainerGender,Address,City")] Trainer trainer)
         {
-            if (id != trainer.TrainerId)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 try

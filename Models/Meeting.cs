@@ -21,7 +21,7 @@ namespace web_fitness.Models
         [ForeignKey("TrainerID")]
         public int TrainerID { get; set; }
 
-        [DataType(DataType.Date)]
+        [DataType(DataType.DateTime)]
         public DateTime MeetDate { get; set; }
 
        
