@@ -3,13 +3,13 @@
     ViewData["Title"] = "Graphs";
 }
     <div id="table">
-        <hr>
         <br />
         <h3 class="headline">Statistics</h3>
-        <!DOCTYPE html>
-        <meta charset="utf-8">
-        <div class="container1" id="firstDataviz"></div>
-        <div class="container2" id="secondDataviz"></div>
+
+        <div class="d-flex">
+            <div class="container1" id="firstDataviz"></div>
+            <div class="container2" id="secondDataviz"></div>
+        </div>
         <!--First Graph -->
         <!-- Load d3.js -->
         <script src="https://d3js.org/d3.v4.js"></script>
@@ -150,7 +150,6 @@
                 svg2.append("text")
                     .attr("transform", "translate(" + (width / 2) + " ," + (height + margin.bottom - 15) + ")")
                     .style("text-anchor", "middle")
-                    .text("Amount Of Meetings");
                 // add title to the graph
                 svg2.append("text")
                     .attr("x", (width / 2))
