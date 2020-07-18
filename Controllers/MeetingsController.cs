@@ -17,7 +17,10 @@ namespace web_fitness.Controllers
         public MeetingsController(fitnessdataContext context)
         {
             _context = context;
+            TrainbyCityGraph();
+            CountMeetingbyTypeGraph();
         }
+
 
         // GET: Meetings
         public async Task<IActionResult> Index(int? training_type)
@@ -180,5 +183,73 @@ namespace web_fitness.Controllers
         {
             return _context.Meetings.Any(e => e.MeetID == id);
         }
+
+
+        public void TrainbyCityGraph() //create data for the first graph
+        { //calculate the train meetings  per city
+            var trainPerCity = from s in _context.Meetings
+                               join a in _context.Trainers
+                               on s.TrainerID equals a.TrainerId
+                               group a by a.City into city_count
+                               select new
+                               {
+                                   key = city_count.Key,
+                                   Count = city_count.Count()
+                               };
+            string path = "wwwroot\\TrainbyCity.csv";
+            try
+            {
+                System.IO.StreamWriter writer;
+                System.IO.FileStream file = System.IO.File.Open(path, System.IO.FileMode.OpenOrCreate);
+                file.Close();
+                writer = new System.IO.StreamWriter(path);
+                writer.Write("City" + "," + "train\n");
+                foreach (var s in trainPerCity)
+                {
+                    writer.Write(s.key + "," + s.Count + "\n");
+                    writer.Flush();
+                }
+                file.Close();
+                writer.Close();
+            }
+            catch
+            {
+            }
+
+        }
+
+        public void CountMeetingbyTypeGraph() //create data for the second graph
+        {
+            //calculate the amount of apartments by the number of rooms
+            var MeetingbyType = from s in _context.Meetings
+                                join ty in _context.TrainingTypes
+                                on s.TrainingTypeID equals ty.TrainingTypeId
+                                group ty by ty.Name into meetings_count
+                                select new
+                                {
+                                    key = meetings_count.Key,
+                                    Count = meetings_count.Count()
+                                };
+            string path = "wwwroot\\CountMeetingbyType.csv";
+            try
+            {
+                System.IO.StreamWriter writer;
+                System.IO.FileStream file = System.IO.File.Open(path, System.IO.FileMode.OpenOrCreate);
+                file.Close();
+                writer = new System.IO.StreamWriter(path);
+                writer.Write("Training_type" + "," + "AmountOfMeetings\n");
+                foreach (var a in MeetingbyType)
+                {
+                    writer.Write(a.key + "," + a.Count + "\n");
+                    writer.Flush();
+                }
+                file.Close();
+                writer.Close();
+            }
+            catch
+            {
+            }
+        }
+
     }
 }
