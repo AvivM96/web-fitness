@@ -24,7 +24,7 @@ namespace web_fitness.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Trainer>().HasIndex(b => b.Mail).IsUnique();
+            modelBuilder.Entity<web_fitness.Models.Trainer>().HasIndex(b => b.Mail).IsUnique();
             //modelBuilder.Entity<Meeting>().HasKey(c => new { c.MeetDate,c.TrainingTypeID, c.TrainerID});
             // modelBuilder.Entity<Meeting>().has(p => p.AuthorFK);
 
