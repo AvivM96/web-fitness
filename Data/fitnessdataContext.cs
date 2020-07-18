@@ -1,11 +1,6 @@
 ﻿
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
-using web_fitness.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using web_fitness.Data;
 
 namespace web_fitness.Data
 {
