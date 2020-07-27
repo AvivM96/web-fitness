@@ -21,6 +21,12 @@
             <th>
                 @Html.DisplayNameFor(model => model.TrainType)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MeetDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Trainer.TrainerName)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -37,7 +43,13 @@
                 @Html.DisplayFor(modelItem => item.TrainType.Name)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.MeetID }) |
+                @Html.DisplayFor(modelItem => item.MeetDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Trainer.TrainerName)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.MeetID }) |
                 @Html.ActionLink("Details", "Details", new { id = item.MeetID }) |
                 @Html.ActionLink("Delete", "Delete", new { id = item.MeetID })
             </td>

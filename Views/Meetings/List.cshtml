@@ -13,18 +13,30 @@
             <th>
                 @Html.DisplayNameFor(model => model.TrainingTypeID)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Trainer.TrainerName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MeetDate)
+            </th>
             <th></th>
         </tr>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MeetID)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TrainingTypeID)
-                </td>
-            </tr>
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.MeetID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TrainingTypeID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Trainer.TrainerName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MeetDate)
+        </td>
+    </tr>
         }
     </table>
 </div>
