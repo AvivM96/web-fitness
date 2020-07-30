@@ -14,7 +14,7 @@
                 @Html.DisplayNameFor(model => model.TrainingTypeID)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Trainer.TrainerName)
+                @Html.DisplayNameFor(model => model.Trainer.FirstName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.MeetDate)
@@ -31,7 +31,7 @@
             @Html.DisplayFor(modelItem => item.TrainingTypeID)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Trainer.TrainerName)
+            @Html.DisplayFor(modelItem => item.Trainer.FirstName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.MeetDate)

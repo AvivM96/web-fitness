@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<web_fitness.Models.Meeting>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Meetings";
 }
 
-<h1>Index</h1>
+<h1>Meetings</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -25,7 +25,7 @@
                 @Html.DisplayNameFor(model => model.MeetDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Trainer.TrainerName)
+                @Html.DisplayNameFor(model => model.Trainer.FirstName)
             </th>
             <th></th>
         </tr>
@@ -37,7 +37,7 @@
                 @Html.DisplayFor(modelItem => item.MeetID)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Trainer.TrainerId)
+                @Html.DisplayFor(modelItem => item.Trainer.Id)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.TrainType.Name)
@@ -46,7 +46,7 @@
                 @Html.DisplayFor(modelItem => item.MeetDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Trainer.TrainerName)
+                @Html.DisplayFor(modelItem => item.Trainer.FirstName)
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.MeetID }) |
