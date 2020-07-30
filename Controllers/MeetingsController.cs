@@ -163,7 +163,7 @@ namespace web_fitness.Controllers
 
         public async Task<IActionResult> List(string eventTypeName)
         {
-            var meetings_of_type = await _context.Meetings.Where(m => m.TrainType.Name == eventTypeName).ToListAsync();
+            var meetings_of_type = await _context.Meetings.Include(m => m.Trainer).Include(m => m.TrainType).Where(m => m.TrainType.Name == eventTypeName).ToListAsync();
             return View(meetings_of_type);
         }
 
