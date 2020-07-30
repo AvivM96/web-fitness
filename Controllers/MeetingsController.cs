@@ -5,7 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using web_fitness.Data;
+using TweetSharp;
 using web_fitness.Models;
+
 
 namespace web_fitness.Controllers
 {
@@ -40,6 +42,7 @@ namespace web_fitness.Controllers
             }
             return View(meetings);
         }
+        [HttpPost]
 
         // GET: Meetings/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -74,8 +77,23 @@ namespace web_fitness.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MeetID,TrainingTypeID,TrainerID,MeetDate")] Meeting meeting)
+        public async Task<IActionResult> Create([Bind("MeetID,TrainingTypeID,TrainerID,MeetDate")] Meeting meeting, string oauth_token, string oauth_verifier)
         {
+
+            string key = "r6tXd2oaTFEqADpqI7GwsiR5o";
+            string secret = "6vqMDzhw0KmSiHXa7VXGARMc8FyEBIxK6EK52XyA6EopEIos4H";
+            string token = "1288845984898994179-vGxfZsfSKO2RpkQpdD3KcCTzoze9C1";
+            string tokenSecret = "9xRofqqaVXfTaF8lChqBFlWbHwnnsdy9wN3xCPyr7BPRQ";
+            var service = new TweetSharp.TwitterService(key, secret);
+            service.AuthenticateWith(token, tokenSecret);
+            TwitterUser user = service.VerifyCredentials(new VerifyCredentialsOptions());
+
+            string message = "hello world";
+            var result = service.SendTweet(new SendTweetOptions
+            {
+                Status = message
+            });
+
             if (ModelState.IsValid)
             {
                 _context.Add(meeting);
@@ -86,6 +104,22 @@ namespace web_fitness.Controllers
             ViewData["TrainerID"] = new SelectList(_context.AspNetUsers.Where(t => t.IsTrainer).ToList(), "Id", "Email");
             return View(meeting);
         }
+
+        [HttpGet]
+        public ActionResult TwitterAuth()
+        {
+            string key = "r6tXd2oaTFEqADpqI7GwsiR5o";
+            string secret = "6vqMDzhw0KmSiHXa7VXGARMc8FyEBIxK6EK52XyA6EopEIos4H";
+
+            TwitterService service = new TwitterService(key, secret);
+
+            OAuthRequestToken requestToken = service.GetRequestToken("https://localhost:44319/Meetings/Create");
+
+            Uri uri = service.GetAuthenticationUrl(requestToken);
+
+            return Redirect(uri.ToString());
+        }
+
 
         // GET: Meetings/Edit/5
         public async Task<IActionResult> Edit(int? id)
