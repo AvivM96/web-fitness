@@ -97,7 +97,6 @@ namespace web_fitness.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("Id,Email,FirstName,LastName,PhoneNumber,Gender,Address,City,IsTrainer")] ApplicationUser trainer)
         {
-            var errors = ModelState.Values.SelectMany(v => v.Errors);
             if (ModelState.IsValid)
             {
                 try

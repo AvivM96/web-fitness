@@ -25,16 +25,16 @@ namespace web_fitness.Data
                 }
                 context.SaveChanges();
             }
-            if (!context.Trainers.Any())
+            if (!context.AspNetUsers.Any(t => t.IsTrainer))
             {
-                var t = new Trainer[]
+                var t = new ApplicationUser[]
                 {
-                new Trainer{TrainerName="Gil", TrainerPhone="050000000", Mail="gil@mail.com", TrainerGender="male", Address="Where", City="There"},
-                new Trainer{TrainerName="Gil2", TrainerPhone="050000002", Mail="gil2@mail.com", TrainerGender="male", Address="Where", City="There"},
+                new ApplicationUser{FirstName="Gil", LastName="Semo", PhoneNumber="050000000", Email="gil@mail.com", Gender="male", Address="Where", City="There"},
+                new ApplicationUser{FirstName="Gil2", LastName="Semo2", PhoneNumber="050000000", Email="gil2@mail.com", Gender="male", Address="Where", City="There"},
                 };
-                foreach (Trainer a in t)
+                foreach (ApplicationUser a in t)
                 {
-                    context.Trainers.Add(a);
+                    context.AspNetUsers.Add(a);
                 }
                 context.SaveChanges();
             }

@@ -10,7 +10,7 @@ using System.Text;
 
 namespace web_fitness.Models
 {
-    public class Meeting
+public class Meeting
     {
         [Key]
         public int MeetID { get; set; }
@@ -18,12 +18,11 @@ namespace web_fitness.Models
         [ForeignKey("TrainingTypeID")]
         public int TrainingTypeID { get; set; }
 
-        [ForeignKey("TrainerID")]
-        public int TrainerID { get; set; }
+        [ForeignKey("UserId")]
+        public string TrainerID { get; set; }
 
         [DataType(DataType.DateTime)]
         public DateTime MeetDate { get; set; }
-
        
 
         public int MyHash (int a,int b, DateTime c)
@@ -35,7 +34,7 @@ namespace web_fitness.Models
         }
 
 
-        public Trainer Trainer { get; set; }
+        public ApplicationUser Trainer { get; set; }
         public TrainingType TrainType { get; set; }
     }
 }

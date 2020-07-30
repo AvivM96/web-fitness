@@ -65,7 +65,7 @@ namespace web_fitness.Controllers
         public IActionResult Create()
         {
             ViewData["TrainingTypeID"] = new SelectList(_context.TrainingTypes, "TrainingTypeId", "Name");
-            ViewData["TrainerID"] = new SelectList(_context.Trainers, "TrainerId", "Mail");
+            ViewData["TrainerID"] = new SelectList(_context.AspNetUsers.Where(t => t.IsTrainer).ToList(), "Id", "Email");
             return View();
         }
 
@@ -83,7 +83,7 @@ namespace web_fitness.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["TrainingTypeID"] = new SelectList(_context.TrainingTypes, "TrainingTypeId", "Name");
-            ViewData["TrainerID"] = new SelectList(_context.Trainers, "TrainerId", "Mail");
+            ViewData["TrainerID"] = new SelectList(_context.AspNetUsers.Where(t => t.IsTrainer).ToList(), "Id", "Email");
             return View(meeting);
         }
 
@@ -105,7 +105,7 @@ namespace web_fitness.Controllers
                 return NotFound();
             }
             ViewData["TrainingTypeID"] = new SelectList(_context.TrainingTypes, "TrainingTypeId", "Name");
-            ViewData["TrainerID"] = new SelectList(_context.Trainers, "TrainerId", "Mail");
+            ViewData["TrainerID"] = new SelectList(_context.AspNetUsers.Where(t => t.IsTrainer).ToList(), "Id", "Email");
             return View(meeting);
         }
 
@@ -137,7 +137,7 @@ namespace web_fitness.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["TrainingTypeID"] = new SelectList(_context.TrainingTypes, "TrainingTypeId", "Name", meeting.TrainingTypeID);
-            ViewData["TrainerID"] = new SelectList(_context.Trainers, "TrainerId", "Mail", meeting.TrainerID);
+            ViewData["TrainerID"] = new SelectList(_context.AspNetUsers.Where(t => t.IsTrainer).ToList(), "Id", "Email", meeting.TrainerID);
             return View(meeting);
         }
 
@@ -187,8 +187,8 @@ namespace web_fitness.Controllers
         public void TrainbyCityGraph() //create data for the first graph
         { //calculate the train meetings  per city
             var trainPerCity = from s in _context.Meetings
-                               join a in _context.Trainers
-                               on s.TrainerID equals a.TrainerId
+                               join a in _context.AspNetUsers
+                               on s.TrainerID equals a.Id
                                group a by a.City into city_count
                                select new
                                {
