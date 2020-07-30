@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using web_fitness.Data;
 using web_fitness.Models;
@@ -22,19 +22,21 @@ namespace web_fitness.Controllers
         // GET: Trainers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Trainers.ToListAsync());
+            List<ApplicationUser> trainers = await _context.AspNetUsers.Where(user => user.IsTrainer).ToListAsync();
+            return View(trainers);
         }
 
         // GET: Trainers/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(string? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var trainer = await _context.Trainers
-                .FirstOrDefaultAsync(m => m.TrainerId == id);
+            var trainer = await _context.AspNetUsers
+                .FirstOrDefaultAsync(m => m.Id == id && m.IsTrainer);
+
             if (trainer == null)
             {
                 return NotFound();
@@ -49,12 +51,10 @@ namespace web_fitness.Controllers
             return View();
         }
 
-        // POST: Trainers/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("TrainerId,Mail,TrainerName,TrainerPhone,TrainerGender,Address,City")] Trainer trainer)
+        public async Task<IActionResult> Create([Bind("TrainerId,Mail,TrainerName,TrainerPhone,TrainerGender,Address,City")] ApplicationUser trainer)
         {
             if (ModelState.IsValid)
             {
@@ -73,14 +73,15 @@ namespace web_fitness.Controllers
         }
 
         // GET: Trainers/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Edit(string? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var trainer = await _context.Trainers.FindAsync(id);
+            var trainer = await _context.AspNetUsers.FindAsync(id);
             if (trainer == null)
             {
                 return NotFound();
@@ -91,10 +92,12 @@ namespace web_fitness.Controllers
         // POST: Trainers/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("TrainerId,Mail,TrainerName,TrainerPhone,TrainerGender,Address,City")] Trainer trainer)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,Email,FirstName,LastName,PhoneNumber,Gender,Address,City,IsTrainer")] ApplicationUser trainer)
         {
+            var errors = ModelState.Values.SelectMany(v => v.Errors);
             if (ModelState.IsValid)
             {
                 try
@@ -104,7 +107,7 @@ namespace web_fitness.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TrainerExists(trainer.TrainerId))
+                    if (!TrainerExists(trainer.Id))
                     {
                         return NotFound();
                     }
@@ -119,15 +122,16 @@ namespace web_fitness.Controllers
         }
 
         // GET: Trainers/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Delete(string? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var trainer = await _context.Trainers
-                .FirstOrDefaultAsync(m => m.TrainerId == id);
+            var trainer = await _context.AspNetUsers
+                .FirstOrDefaultAsync(m => m.Id == id && m.IsTrainer);
             if (trainer == null)
             {
                 return NotFound();
@@ -137,19 +141,20 @@ namespace web_fitness.Controllers
         }
 
         // POST: Trainers/Delete/5
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var trainer = await _context.Trainers.FindAsync(id);
-            _context.Trainers.Remove(trainer);
+            var trainer = await _context.AspNetUsers.FindAsync(id);
+            _context.AspNetUsers.Remove(trainer);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool TrainerExists(int id)
+        private bool TrainerExists(string id)
         {
-            return _context.Trainers.Any(e => e.TrainerId == id);
+            return _context.AspNetUsers.Any(e => e.Id == id && e.IsTrainer);
         }
     }
 }
