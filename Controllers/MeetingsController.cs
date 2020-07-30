@@ -5,7 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using web_fitness.Data;
+using TweetSharp;
 using web_fitness.Models;
+using System;
 
 namespace web_fitness.Controllers
 {
@@ -40,6 +42,7 @@ namespace web_fitness.Controllers
             }
             return View(meetings);
         }
+        [HttpPost]
 
         // GET: Meetings/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -65,7 +68,7 @@ namespace web_fitness.Controllers
         public IActionResult Create()
         {
             ViewData["TrainingTypeID"] = new SelectList(_context.TrainingTypes, "TrainingTypeId", "Name");
-            ViewData["TrainerID"] = new SelectList(_context.Trainers, "TrainerId", "Mail");
+            ViewData["TrainerID"] = new SelectList(_context.AspNetUsers.Where(t => t.IsTrainer).ToList(), "Id", "Email");
             return View();
         }
 
@@ -74,8 +77,23 @@ namespace web_fitness.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MeetID,TrainingTypeID,TrainerID,MeetDate")] Meeting meeting)
+        public async Task<IActionResult> Create([Bind("MeetID,TrainingTypeID,TrainerID,MeetDate")] Meeting meeting, string oauth_token, string oauth_verifier)
         {
+
+            string key = "r6tXd2oaTFEqADpqI7GwsiR5o";
+            string secret = "6vqMDzhw0KmSiHXa7VXGARMc8FyEBIxK6EK52XyA6EopEIos4H";
+            string token = "1288845984898994179-vGxfZsfSKO2RpkQpdD3KcCTzoze9C1";
+            string tokenSecret = "9xRofqqaVXfTaF8lChqBFlWbHwnnsdy9wN3xCPyr7BPRQ";
+            var service = new TweetSharp.TwitterService(key, secret);
+            service.AuthenticateWith(token, tokenSecret);
+            TwitterUser user = service.VerifyCredentials(new VerifyCredentialsOptions());
+
+            string message = string.Format("New meeting is available ! {0}", DateTime.Now);
+            var result = service.SendTweet(new SendTweetOptions 
+            {
+                Status = message
+            });
+
             if (ModelState.IsValid)
             {
                 _context.Add(meeting);
@@ -83,7 +101,7 @@ namespace web_fitness.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["TrainingTypeID"] = new SelectList(_context.TrainingTypes, "TrainingTypeId", "Name");
-            ViewData["TrainerID"] = new SelectList(_context.Trainers, "TrainerId", "Mail");
+            ViewData["TrainerID"] = new SelectList(_context.AspNetUsers.Where(t => t.IsTrainer).ToList(), "Id", "Email");
             return View(meeting);
         }
 
@@ -105,7 +123,7 @@ namespace web_fitness.Controllers
                 return NotFound();
             }
             ViewData["TrainingTypeID"] = new SelectList(_context.TrainingTypes, "TrainingTypeId", "Name");
-            ViewData["TrainerID"] = new SelectList(_context.Trainers, "TrainerId", "Mail");
+            ViewData["TrainerID"] = new SelectList(_context.AspNetUsers.Where(t => t.IsTrainer).ToList(), "Id", "Email");
             return View(meeting);
         }
 
@@ -137,7 +155,7 @@ namespace web_fitness.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["TrainingTypeID"] = new SelectList(_context.TrainingTypes, "TrainingTypeId", "Name", meeting.TrainingTypeID);
-            ViewData["TrainerID"] = new SelectList(_context.Trainers, "TrainerId", "Mail", meeting.TrainerID);
+            ViewData["TrainerID"] = new SelectList(_context.AspNetUsers.Where(t => t.IsTrainer).ToList(), "Id", "Email", meeting.TrainerID);
             return View(meeting);
         }
 
@@ -187,8 +205,8 @@ namespace web_fitness.Controllers
         public void TrainbyCityGraph() //create data for the first graph
         { //calculate the train meetings  per city
             var trainPerCity = from s in _context.Meetings
-                               join a in _context.Trainers
-                               on s.TrainerID equals a.TrainerId
+                               join a in _context.AspNetUsers
+                               on s.TrainerID equals a.Id
                                group a by a.City into city_count
                                select new
                                {

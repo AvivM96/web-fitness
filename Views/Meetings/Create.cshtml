@@ -1,8 +1,8 @@
 ﻿@model web_fitness.Models.Meeting
-
 @{
     ViewData["Title"] = "Create";
 }
+
 
 <h1>Create</h1>
 
@@ -14,11 +14,11 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="TrainingTypeID" class="control-label"></label>
-                <select asp-for="TrainingTypeID" class ="form-control" asp-items="ViewBag.TrainingTypeID"></select>
+                <select asp-for="TrainingTypeID" class="form-control" asp-items="ViewBag.TrainingTypeID"></select>
             </div>
             <div class="form-group">
                 <label asp-for="TrainerID" class="control-label"></label>
-                <select asp-for="TrainerID" class ="form-control" asp-items="ViewBag.TrainerId"></select>
+                <select asp-for="TrainerID" class="form-control" asp-items="ViewBag.TrainerId"></select>
             </div>
             <div class="form-group">
                 <label asp-for="MeetDate" class="control-label"></label>
@@ -26,9 +26,10 @@
                 <span asp-validation-for="MeetDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Create and Share" class="btn btn-primary" />
             </div>
         </form>
+
     </div>
 </div>
 

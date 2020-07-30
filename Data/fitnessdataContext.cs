@@ -1,5 +1,6 @@
 ﻿
 using System.Reflection;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace web_fitness.Data
@@ -18,13 +19,12 @@ namespace web_fitness.Data
         }
 
         public DbSet<web_fitness.Models.TrainingType> TrainingTypes { get; set; }
-        public DbSet<web_fitness.Models.Trainer> Trainers { get; set; }
         public DbSet<web_fitness.Models.Meeting> Meetings { get; set; }
-        public DbSet<web_fitness.Models.Customer> Customers { get; set; }
+        public DbSet<ApplicationUser> AspNetUsers { get; set; }
+        public DbSet<IdentityRole> AspNetRoles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<web_fitness.Models.Trainer>().HasIndex(b => b.Mail).IsUnique();
             //modelBuilder.Entity<Meeting>().HasKey(c => new { c.MeetDate,c.TrainingTypeID, c.TrainerID});
             // modelBuilder.Entity<Meeting>().has(p => p.AuthorFK);
 

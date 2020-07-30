@@ -1,4 +1,4 @@
-﻿@model web_fitness.Models.Trainer
+﻿@model ApplicationUser
 
 @{
     ViewData["Title"] = "Create";
@@ -13,24 +13,34 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Mail" class="control-label"></label>
-                <input asp-for="Mail" class="form-control" />
-                <span asp-validation-for="Mail" class="text-danger"></span>
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="TrainerName" class="control-label"></label>
-                <input asp-for="TrainerName" class="form-control" />
-                <span asp-validation-for="TrainerName" class="text-danger"></span>
+                <label asp-for="FirstName" class="control-label"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="TrainerPhone" class="control-label"></label>
-                <input asp-for="TrainerPhone" class="form-control" />
-                <span asp-validation-for="TrainerPhone" class="text-danger"></span>
+                <label asp-for="LastName" class="control-label"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group d-flex">
+                <label asp-for="IsTrainer"></label>
+                <input type="checkbox" asp-for="IsTrainer" class="form-control" />
+                <span asp-validation-for="IsTrainer" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="TrainerGender" class="control-label"></label>
-                <input asp-for="TrainerGender" class="form-control" />
-                <span asp-validation-for="TrainerGender" class="text-danger"></span>
+                <label asp-for="PhoneNumber" class="control-label"></label>
+                <input asp-for="PhoneNumber" class="form-control" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Gender" class="control-label"></label>
+                <input asp-for="Gender" class="form-control" />
+                <span asp-validation-for="Gender" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Address" class="control-label"></label>
