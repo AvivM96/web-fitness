@@ -87,8 +87,9 @@ namespace web_fitness.Controllers
             var service = new TweetSharp.TwitterService(key, secret);
             service.AuthenticateWith(token, tokenSecret);
             TwitterUser user = service.VerifyCredentials(new VerifyCredentialsOptions());
-
-            string message = string.Format("New meeting is available ! {0}", DateTime.Now);
+            var traintype = await _context.TrainingTypes
+               .FirstOrDefaultAsync(m => m.TrainingTypeId == meeting.TrainingTypeID);
+            string message = string.Format("New {0} meeting is available at {1}", traintype.Name, meeting.MeetDate.Date);
             var result = service.SendTweet(new SendTweetOptions 
             {
                 Status = message
