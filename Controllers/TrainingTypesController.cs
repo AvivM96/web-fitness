@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using web_fitness.Data;
@@ -24,6 +25,19 @@ namespace web_fitness.Controllers
         public async Task<IActionResult> Index()
         {
             return View(await _context.TrainingTypes.ToListAsync());
+        }
+        public async Task<IActionResult> Search(string searchString)
+        {
+            var Ttype = from a in _context.TrainingTypes
+                        select a;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                Ttype = Ttype.Where(s => s.Name.Contains(searchString)|| s.Target.Contains(searchString));
+            }
+            var ids = Ttype.Select(s => s.TrainingTypeId);
+            List<TrainingType> typesToShow = await _context.TrainingTypes.Where(x => ids.Contains(x.TrainingTypeId)).ToListAsync();
+
+            return View("~/Views/TrainingTypes/index.cshtml", typesToShow);
         }
 
         // GET: TrainingTypes/Details/5

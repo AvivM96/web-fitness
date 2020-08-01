@@ -224,6 +224,46 @@ namespace web_fitness.Controllers
         {
             return _context.Meetings.Any(e => e.MeetID == id);
         }
+        public async Task<IActionResult> MultipleSearch(DateTime startDate, string city, string price, string typename)
+        {
+
+            var meeting = from s in _context.Meetings
+                           join a in _context.AspNetUsers
+                           on s.TrainerID equals a.Id
+                           join t in _context.TrainingTypes
+                           on s.TrainingTypeID equals t.TrainingTypeId
+                           select new
+                           { a.City,t.TrainingTypeId,t.Name,s.MeetDate,s.MeetID,a.Email,s.Price,a.LastName,a.FirstName,a.Id};
+
+            if (!(startDate == DateTime.MinValue) || !String.IsNullOrEmpty(city) || !String.IsNullOrEmpty(price) || !String.IsNullOrEmpty(typename))
+            {
+                if (!String.IsNullOrEmpty(typename))
+                {
+                    meeting = meeting.Where(s => s.Name.Equals(typename));
+                }
+                if (!String.IsNullOrEmpty(city))
+                {
+                    meeting = meeting.Where(s => s.City.Equals(city));
+                }
+                if (!String.IsNullOrEmpty(price))
+                {
+                    meeting = meeting.Where(s => s.Price <= Int32.Parse(price));
+                }
+                if (!startDate.Equals(DateTime.MinValue))
+                {
+                    meeting = meeting.Where(s => s.MeetDate <= startDate);
+                }
+
+            }
+
+            var ids = meeting.Select(s => s.MeetID);
+            List<Meeting> MeetingsSearch = await _context.Meetings.Include(m => m.Trainer).Include(m => m.TrainType).Where(s => ids.Contains(s.MeetID)).ToListAsync();
+
+
+
+            return View("~/Views/Meetings/Index.cshtml", MeetingsSearch);
+        }
+
 
 
         public void TrainbyCityGraph() //create data for the first graph
