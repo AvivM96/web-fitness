@@ -5,6 +5,9 @@
     <div id="table">
         <br />
         <h3 class="headline">Statistics</h3>
+        <aside>
+            <h5>This page is for administrator only</h5>
+        </aside>
         <div class="d-flex">
             <div class="container1" id="firstDataviz"></div>
             <div class="container2" id="secondDataviz"></div>
@@ -12,8 +15,7 @@
         <!--First Graph -->
         <!-- Load d3.js -->
         <script src="https://d3js.org/d3.v4.js"></script>
-        <script>
-            // set the dimensions and margins of the graph
+        <script>// set the dimensions and margins of the graph
             var margin = { top: 70, right: 30, bottom: 90, left: 60 },
                 width = 500 - margin.left - margin.right,
                 height = 500 - margin.top - margin.bottom;
@@ -80,13 +82,11 @@
                     .style("font-size", "16px")
                     .style("text-decoration", "underline")
                     .text("Amount Of Train Meetings Per City");
-            })
-        </script>
+            })</script>
 
         <!--Second Graph -->
         <script src="https://d3js.org/d3.v4.js"></script>
-        <script>
-            // set the dimensions and margins of the graph
+        <script>// set the dimensions and margins of the graph
             var margin2 = { top: 70, right: 30, bottom: 70, left: 60 },
                 width = 500 - margin2.left - margin2.right,
                 height = 500 - margin2.top - margin2.bottom;
@@ -157,8 +157,7 @@
                     .style("font-size", "16px")
                     .style("text-decoration", "underline")
                     .text("Amount Of Meetings By Training Type");
-            })
-        </script>
+            })</script>
     </div>
 <div>
     <a asp-action="Index">Back to List</a>

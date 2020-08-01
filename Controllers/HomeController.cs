@@ -7,8 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using web_fitness.Models;
 using web_fitness.Data;
-using web_fitness.Models;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.AspNetCore.Authorization;
 
 namespace web_fitness.Controllers
 {
@@ -21,10 +21,13 @@ namespace web_fitness.Controllers
             _context = context;
 
         }
+
+        [Authorize(Roles="Admin")]
         public IActionResult Graphs()
         {
             return View();
         }
+
         public IActionResult Index()
         {
 

@@ -11,7 +11,11 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Web Fitness</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <div class="bg-white rounded d-flex align-items-center justify-content-cente px-2">
+                        <canvas id="WebFitnessCanvas" style="position: relative; height: 45px; margin-left: 4px"></canvas>
+                    </div>
+                </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -19,13 +23,13 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <partial name="_LoginPartial" />
                     <ul class="navbar-nav flex-grow-1">
-                        @if(this.User.IsInRole("Trainer"))
+                        @if (this.User.IsInRole("Trainer"))
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-light" asp-area="" asp-controller="Trainers" asp-action="Meetings">My Meetings</a>
                             </li>
                         }
-                        
+
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="Trainers" asp-action="Index">Trainers</a>
                         </li>
@@ -35,16 +39,19 @@
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="TrainingTypes" asp-action="Index">Training methods</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Graphs">Statistics</a>
-                        </li>
+
+                        @if (this.User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Graphs">Statistics</a>
+                            </li>
+                        }
                     </ul>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
-                        
-                    </ul>
+                    <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                        <ul class="navbar-nav flex-grow-1">
+                        </ul>
+                    </div>
                 </div>
-            </div>
         </nav>
     </header>
     <div class="container h-100">
@@ -63,4 +70,5 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
 </body>
+<script src="~/js/canvas.js" asp-append-version="true"></script>
 </html>

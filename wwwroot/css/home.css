@@ -1,4 +1,8 @@
-﻿.training-type-card {
+﻿.home-title {
+    text-shadow: 1px 1px grey;
+}
+
+.training-type-card {
     background-color: white;
     transition: all 300ms ease-in-out;
     cursor: pointer;
@@ -17,4 +21,20 @@ a:hover {
 
 .training-type-card:hover {
     transform: scale(1.04);
+}
+
+.multipleColumns {
+    -webkit-column-count: 3;
+    -moz-column-count: 3;
+    column-count: 3;
+    font-size: 18px
+}
+
+@font-face {
+    font-family: myFirstFont;
+    src: url('fonts/OpenSans-Regular.ttf') format('truetype');
+}
+
+.newFont {
+    font-family: myFirstFont;
 }

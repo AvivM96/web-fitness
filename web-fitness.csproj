@@ -33,7 +33,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.NETCore.App" Version="$(RuntimeFrameworkVersion)"><AllowExplicitVersion>true</AllowExplicitVersion>
+    <PackageReference Include="Microsoft.NETCore.App" Version="2.2.8"><AllowExplicitVersion>true</AllowExplicitVersion>
 </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.3" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
