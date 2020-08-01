@@ -3704,7 +3704,7 @@
       this._activeTarget = null;
       this._scrollHeight = 0;
       $(this._scrollElement).on(Event$8.SCROLL, function (event) {
-        return _this._process(event);
+        return _this._ss(event);
       });
       this.refresh();
 
