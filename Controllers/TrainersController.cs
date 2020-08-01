@@ -83,7 +83,7 @@ namespace web_fitness.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return View("~/Views/Home/Index.cshtml");
             }
 
             var trainer = await _context.AspNetUsers
@@ -91,7 +91,7 @@ namespace web_fitness.Controllers
 
             if (trainer == null)
             {
-                return NotFound();
+                return View("~/Views/Home/Index.cshtml");
             }
 
             return View(trainer);
@@ -130,13 +130,13 @@ namespace web_fitness.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return View("~/Views/Home/Index.cshtml");
             }
 
             var trainer = await _context.AspNetUsers.FindAsync(id);
             if (trainer == null)
             {
-                return NotFound();
+                return View("~/Views/Home/Index.cshtml");
             }
             return View(trainer);
         }
@@ -160,7 +160,7 @@ namespace web_fitness.Controllers
                 {
                     if (!TrainerExists(trainer.Id))
                     {
-                        return NotFound();
+                        return View("~/Views/Home/Index.cshtml");
                     }
                     else
                     {
@@ -178,14 +178,14 @@ namespace web_fitness.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return View("~/Views/Home/Index.cshtml");
             }
 
             var trainer = await _context.AspNetUsers
                 .FirstOrDefaultAsync(m => m.Id == id && m.IsTrainer);
             if (trainer == null)
             {
-                return NotFound();
+                return View("~/Views/Home/Index.cshtml");
             }
 
             return View(trainer);

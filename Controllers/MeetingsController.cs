@@ -52,7 +52,7 @@ namespace web_fitness.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return View("~/Views/Home/Index.cshtml");
             }
 
             var meeting = await _context.Meetings
@@ -62,7 +62,7 @@ namespace web_fitness.Controllers
 
             if (meeting == null)
             {
-                return NotFound();
+                return View("~/Views/Home/Index.cshtml");
             }
 
             if (User.IsInRole("Trainer") && _userManager.GetUserId(User) != meeting.TrainerID)
@@ -124,7 +124,7 @@ namespace web_fitness.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return View("~/Views/Home/Index.cshtml");
             }
 
             var meeting = await _context.Meetings
@@ -134,7 +134,7 @@ namespace web_fitness.Controllers
 
              if (meeting == null)
             {
-                return NotFound();
+                return View("~/Views/Home/Index.cshtml");
             }
 
             ViewData["TrainingTypeID"] = new SelectList(_context.TrainingTypes, "TrainingTypeId", "Name");
@@ -167,7 +167,7 @@ namespace web_fitness.Controllers
                 {
                     if (!MeetingExists(meeting.MeetID))
                     {
-                        return NotFound();
+                        return View("~/Views/Home/Index.cshtml");
                     }
                     else
                     {
@@ -187,7 +187,7 @@ namespace web_fitness.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return View("~/Views/Home/Index.cshtml");
             }
 
             var meeting = await _context.Meetings
@@ -196,7 +196,7 @@ namespace web_fitness.Controllers
                 .FirstOrDefaultAsync(m => m.MeetID == id);
             if (meeting == null)
             {
-                return NotFound();
+                return View("~/Views/Home/Index.cshtml");
             }
 
             return View(meeting);
