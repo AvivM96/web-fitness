@@ -40,6 +40,7 @@ namespace web_fitness.Controllers
         }
 
 
+
         // GET: Trainers/Details/5
         public async Task<IActionResult> Details(string? id)
         {

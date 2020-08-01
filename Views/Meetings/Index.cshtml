@@ -13,13 +13,12 @@
 
 
     <br />
-    <br />
-    <br />
     <div class="secondSearch blackBorder">
         <form class="form-inline" asp-controller="Meetings" asp-action="MultipleSearch" style="float:left;">
             <input id="StartDate" class="form-control blackBorder" type="date" name="startDate" placeholder="StartDate">
             <input class="form-control blackBorder" type="text" id="city" placeholder="City" name="city">
-            <input class="form-control blackBorder" type="number" min="0" id="price" placeholder="Maximum Price" name="price">
+            <input class="form-control blackBorder" type="text" id="Method" placeholder="Method" name="typename">
+            <input class="form-control blackBorder" type="number" min="0" id="price" placeholder="Maximum Price" name="price"> 
             <button type="submit" class="btn btn-default submitButtons" id="search">Search</button>
         </form>
     </div>
