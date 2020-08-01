@@ -23,8 +23,10 @@ public class Meeting
 
         [DataType(DataType.DateTime)]
         public DateTime MeetDate { get; set; }
-       
 
+        [Required]
+        [Range(0, 10000000000)]
+        public int Price { get; set; }
         public int MyHash (int a,int b, DateTime c)
         {
             var byteArr = Encoding.ASCII.GetBytes(a.ToString() + c.ToString()+ b.ToString()  );

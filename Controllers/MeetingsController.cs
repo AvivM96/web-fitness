@@ -42,7 +42,6 @@ namespace web_fitness.Controllers
             }
             return View(meetings);
         }
-        [HttpPost]
 
         // GET: Meetings/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -55,7 +54,7 @@ namespace web_fitness.Controllers
             var meeting = await _context.Meetings
                 .Include(m => m.TrainType)
                 .Include(m => m.Trainer)
-                .FirstOrDefaultAsync(m => m.MeetID == id);
+                .FirstOrDefaultAsync(m => m.MeetID ==id );
             if (meeting == null)
             {
                 return NotFound();
@@ -77,7 +76,7 @@ namespace web_fitness.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MeetID,TrainingTypeID,TrainerID,MeetDate")] Meeting meeting, string oauth_token, string oauth_verifier)
+        public async Task<IActionResult> Create([Bind("MeetID,TrainingTypeID,TrainerID,MeetDate,Price")] Meeting meeting, string oauth_token, string oauth_verifier)
         {
 
             string key = "r6tXd2oaTFEqADpqI7GwsiR5o";
@@ -133,7 +132,7 @@ namespace web_fitness.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("MeetID,TrainingTypeID,TrainerID,MeetDate")] Meeting meeting)
+        public async Task<IActionResult> Edit(int id, [Bind("MeetID,TrainingTypeID,TrainerID,MeetDate,Price")] Meeting meeting)
         {
             if (ModelState.IsValid)
             {

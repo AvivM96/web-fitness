@@ -114,6 +114,9 @@ namespace web_fitness.Migrations
                     b.Property<DateTime>("MeetDate")
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("Price")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("TrainerID")
                         .HasColumnType("TEXT");
 
