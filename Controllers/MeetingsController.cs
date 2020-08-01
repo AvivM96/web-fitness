@@ -215,7 +215,7 @@ namespace web_fitness.Controllers
             {
                 if (!String.IsNullOrEmpty(typename))
                 {
-                    meeting = meeting.Where(s => s.Name.ToString().Equals(typename));
+                    meeting = meeting.Where(s => s.Name.Equals(typename));
                 }
                 if (!String.IsNullOrEmpty(city))
                 {
@@ -235,17 +235,7 @@ namespace web_fitness.Controllers
             var ids = meeting.Select(s => s.MeetID);
             List<Meeting> MeetingsSearch = await _context.Meetings.Include(m => m.Trainer).Include(m => m.TrainType).Where(s => ids.Contains(s.MeetID)).ToListAsync();
 
-       /*     MeetingsSearch.ForEach(async  Ttype =>
-            {
 
-                var training_type = await _context.TrainingTypes.SingleOrDefaultAsync(m => m.TrainingTypeId== Ttype.TrainingTypeID);
-                Ttype.TrainType.Name = training_type.Name;
-                Ttype.ApartmentCity = training_type.City;
-                sublet.RoomNumber = training_type.RoomNumber;
-
-            });
-
-    */
 
             return View("~/Views/Meetings/Index.cshtml", MeetingsSearch);
         }
