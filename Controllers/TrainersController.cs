@@ -106,13 +106,13 @@ namespace web_fitness.Controllers
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("TrainerId,Mail,TrainerName,TrainerPhone,TrainerGender,Address,City")] ApplicationUser trainer)
+        public async Task<IActionResult> Create([Bind("Id,Email,FirstName,LastName,PhoneNumber, Gender,Address,City")] ApplicationUser trainer)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(trainer);
+                    _context.AspNetUsers.Update(trainer);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateException)

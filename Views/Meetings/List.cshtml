@@ -5,63 +5,63 @@
 <aside>
     <h1>@ViewData["eventTypeName"] meetings</h1>
 </aside>
-<div class="text-center h-100">
-    
-    <br />
-    <div class="secondSearch blackBorder">
-        <form class="form-inline" asp-controller="Meetings" asp-action="MultipleSearch" style="float:left;">
-            <input id="StartDate" class="form-control blackBorder" type="date" name="startDate" placeholder="StartDate">
-            <input class="form-control blackBorder" type="text" id="city" placeholder="City" name="city">
-            <input class="form-control blackBorder" type="text" id="Method" placeholder="Method" name="typename">
-            <input class="form-control blackBorder" type="number" min="0" id="price" placeholder="Maximum Price" name="price">
-            <button type="submit" class="btn btn-default submitButtons" id="search all meetings">Search any Meeting</button>
-        </form>
-    </div>
 
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.MeetID)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TrainingTypeID)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Trainer.FirstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MeetDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Trainer.City)
-            </th>
-            <th></th>
-        </tr>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MeetID)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TrainingTypeID)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Trainer.FirstName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MeetDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Price)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Trainer.City)
-                </td>
-            </tr>
-        }
-    </table>
+<div class="secondSearch blackBorder mt-4">
+    <form class="form-inline" asp-controller="Meetings" asp-action="MultipleSearch" style="float:left;">
+        <input id="StartDate" class="form-control blackBorder mr-2" type="date" name="startDate" placeholder="StartDate">
+        <input class="form-control blackBorder mr-2" type="text" id="city" placeholder="City" name="city">
+        <input class="form-control blackBorder mr-2" type="text" id="Method" placeholder="Method" name="typename">
+        <input class="form-control blackBorder mr-2" type="number" min="0" id="price" placeholder="Maximum Price" name="price">
+        <button type="submit" class="btn btn-dark submitButtons" id="search all meetings">Search any Meeting</button>
+    </form>
 </div>
+
+    <div class="web-fitness-card" style="margin-top: 80px">
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.MeetID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TrainingTypeID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Trainer.FirstName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MeetDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Price)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Trainer.City)
+                </th>
+                <th></th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MeetID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TrainingTypeID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Trainer.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MeetDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Trainer.City)
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+    
