@@ -8,16 +8,20 @@ using web_fitness.Data;
 using TweetSharp;
 using web_fitness.Models;
 using System;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace web_fitness.Controllers
 {
     public class MeetingsController : Controller
     {
         private readonly fitnessdataContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public MeetingsController(fitnessdataContext context)
+        public MeetingsController(fitnessdataContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
             TrainbyCityGraph();
             CountMeetingbyTypeGraph();
         }
@@ -55,19 +59,26 @@ namespace web_fitness.Controllers
                 .Include(m => m.TrainType)
                 .Include(m => m.Trainer)
                 .FirstOrDefaultAsync(m => m.MeetID ==id );
+
             if (meeting == null)
             {
                 return NotFound();
+            }
+
+            if (User.IsInRole("Trainer") && _userManager.GetUserId(User) != meeting.TrainerID)
+            {
+                ViewData["AccessDenied"] = true;
             }
 
             return View(meeting);
         }
 
         // GET: Meetings/Create
+        [Authorize(Roles ="Admin, Trainer")]
         public IActionResult Create()
         {
             ViewData["TrainingTypeID"] = new SelectList(_context.TrainingTypes, "TrainingTypeId", "Name");
-            ViewData["TrainerID"] = new SelectList(_context.AspNetUsers.Where(t => t.IsTrainer).ToList(), "Id", "Email");
+            ViewData["TrainerID"] = this.GetRelevantTrainersToSelect();
             return View();
         }
 
@@ -75,6 +86,7 @@ namespace web_fitness.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles = "Admin, Trainer")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("MeetID,TrainingTypeID,TrainerID,MeetDate,Price")] Meeting meeting, string oauth_token, string oauth_verifier)
         {
@@ -101,11 +113,13 @@ namespace web_fitness.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["TrainingTypeID"] = new SelectList(_context.TrainingTypes, "TrainingTypeId", "Name");
-            ViewData["TrainerID"] = new SelectList(_context.AspNetUsers.Where(t => t.IsTrainer).ToList(), "Id", "Email");
+            ViewData["TrainerID"] = this.GetRelevantTrainersToSelect();
             return View(meeting);
         }
 
         // GET: Meetings/Edit/5
+
+        [Authorize(Roles = "Admin, Trainer")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -122,8 +136,9 @@ namespace web_fitness.Controllers
             {
                 return NotFound();
             }
+
             ViewData["TrainingTypeID"] = new SelectList(_context.TrainingTypes, "TrainingTypeId", "Name");
-            ViewData["TrainerID"] = new SelectList(_context.AspNetUsers.Where(t => t.IsTrainer).ToList(), "Id", "Email");
+            ViewData["TrainerID"] = this.GetRelevantTrainersToSelect();
             return View(meeting);
         }
 
@@ -131,6 +146,7 @@ namespace web_fitness.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles = "Admin, Trainer")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("MeetID,TrainingTypeID,TrainerID,MeetDate,Price")] Meeting meeting)
         {
@@ -138,6 +154,12 @@ namespace web_fitness.Controllers
             {
                 try
                 {
+                    if(User.IsInRole("Trainer") && meeting.TrainerID != this._userManager.GetUserId(User))
+                    {
+                        ViewData["AccessDenied"] = true;
+                        return View(meeting);
+                    }
+
                     _context.Update(meeting);
                     await _context.SaveChangesAsync();
                 }
@@ -155,11 +177,12 @@ namespace web_fitness.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["TrainingTypeID"] = new SelectList(_context.TrainingTypes, "TrainingTypeId", "Name", meeting.TrainingTypeID);
-            ViewData["TrainerID"] = new SelectList(_context.AspNetUsers.Where(t => t.IsTrainer).ToList(), "Id", "Email", meeting.TrainerID);
+            ViewData["TrainerID"] = this.GetRelevantTrainersToSelect();
             return View(meeting);
         }
 
-        // GET: Meetings/Delete/5
+        // DELETE: Meetings/Delete/5
+        [Authorize(Roles = "Admin, Trainer")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -187,6 +210,7 @@ namespace web_fitness.Controllers
 
         // POST: Meetings/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Admin, Trainer")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
@@ -306,6 +330,17 @@ namespace web_fitness.Controllers
             catch
             {
             }
+        }
+
+        private SelectList GetRelevantTrainersToSelect() {
+            if (User.IsInRole("Trainer"))
+            {
+                var currentUser = _context.AspNetUsers.Find(this._userManager.GetUserId(User));
+
+                return new SelectList(new List<ApplicationUser> { currentUser }, "Id", "Email");
+            }
+
+            return new SelectList(_context.AspNetUsers.Where(t => t.IsTrainer).ToList(), "Id", "Email");
         }
 
     }

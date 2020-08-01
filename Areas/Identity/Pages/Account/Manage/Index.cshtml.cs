@@ -50,19 +50,16 @@ namespace web_fitness.Areas.Identity.Pages.Account.Manage
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
 
-            [Phone]
             [Required]
             [DataType(DataType.Text)]
             [Display(Name = "Address")]
             public string Address { get; set; }
 
-            [Phone]
             [Required]
             [DataType(DataType.Text)]
             [Display(Name = "City")]
             public string City { get; set; }
 
-            [Phone]
             [Required]
             [DataType(DataType.Text)]
             [Display(Name = "Gender")]
