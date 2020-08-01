@@ -26,6 +26,17 @@
         </form>
     </div>
     <br />
+    <div class="secondSearch blackBorder">
+        <form class="form-inline" asp-controller="Trainers" asp-action="MultipleSearch" style="float:left;">
+            <input class="form-control blackBorder" type="text" id="city" placeholder="City" name="city">
+            <input class="form-control blackBorder" type="text" id="fname" placeholder="first name" name="fname">
+            <input class="form-control blackBorder" type="text" id="city" placeholder="Phone" name="phonenumber">
+            <input class="form-control blackBorder" type="text" id="gender" placeholder="gender" name="gender">
+
+            <button type="submit" class="btn btn-default submitButtons" id="search">Search</button>
+        </form>
+    </div>
+    <br />
     <table class="table">
         <thead>
             <tr>

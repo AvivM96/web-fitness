@@ -39,7 +39,41 @@ namespace web_fitness.Controllers
             return View("~/Views/Trainers/index.cshtml", usersToShow);
         }
 
+        public async Task<IActionResult> MultipleSearch(string fname,string gender, string city,string phonenumber)
+        {
 
+            var trainer = from a in _context.AspNetUsers.Where(user => user.IsTrainer)
+                                               select a;
+
+
+            if (!String.IsNullOrEmpty(fname) || !String.IsNullOrEmpty(city) || !String.IsNullOrEmpty(gender) || !String.IsNullOrEmpty(phonenumber))
+            {
+                if (!String.IsNullOrEmpty(fname))
+                {
+                    trainer = trainer.Where(s => s.FirstName.Equals(fname));
+                }
+                if (!String.IsNullOrEmpty(city))
+                {
+                    trainer = trainer.Where(s => s.City.Equals(city));
+                }
+                if (!String.IsNullOrEmpty(gender))
+                {
+                    trainer = trainer.Where(s => s.Gender.Equals(gender));
+                }
+                if (!String.IsNullOrEmpty(phonenumber))
+                {
+                    trainer = trainer.Where(s => s.PhoneNumber.Contains(phonenumber));
+                }
+
+            }
+
+            var ids = trainer.Select(s => s.Id);
+            List<ApplicationUser> trainerSearch = await _context.AspNetUsers.Where(s => ids.Contains(s.Id)).ToListAsync();
+
+
+
+            return View("~/Views/Trainers/Index.cshtml", trainerSearch);
+        }
 
         // GET: Trainers/Details/5
         public async Task<IActionResult> Details(string? id)
