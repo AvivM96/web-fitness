@@ -6,26 +6,24 @@
 
 <h1>Meetings</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+@if (this.User.IsInRole("Admin") || this.User.IsInRole("Trainer"))
+{
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.MeetID)
+                Topic
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Trainer)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TrainType)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.MeetDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Trainer.FirstName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Price)
@@ -37,27 +35,34 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.MeetID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Trainer.Id)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.TrainType.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Trainer.FirstName) @Html.DisplayFor(modelItem => item.Trainer.LastName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.MeetDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Trainer.FirstName)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Price)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.MeetID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.MeetID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.MeetID })
+                @if (this.User.IsInRole("Admin"))
+                {
+                    <span>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.MeetID }) |
+                    </span>
+                }
+
+                @Html.ActionLink("Details", "Details", new { id = item.MeetID })
+
+                @if (this.User.IsInRole("Admin"))
+                {
+                <span>
+                    | @Html.ActionLink("Delete", "Delete", new { id = item.MeetID })
+                </span>
+                }
+                
             </td>
 
         </tr>

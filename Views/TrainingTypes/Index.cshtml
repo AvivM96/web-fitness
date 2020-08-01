@@ -4,11 +4,14 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Training Methods</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+@if (this.User.IsInRole("Admin"))
+{
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
 <table class="table">
     <thead>
         <tr>
@@ -22,20 +25,33 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Target)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.TrainingTypeId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.TrainingTypeId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.TrainingTypeId">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Target)
+                </td>
+                <td>
+                    @if (this.User.IsInRole("Admin"))
+                    {
+                        <span>
+                            <a asp-action="Edit" asp-route-id="@item.TrainingTypeId">Edit</a> |
+                        </span>
+                    }
+
+                    <a asp-action="Details" asp-route-id="@item.TrainingTypeId">Details</a>
+
+                    @if (this.User.IsInRole("Admin"))
+                    {
+                        <span>
+                            | <a asp-action="Delete" asp-route-id="@item.TrainingTypeId">Delete</a>
+                        </span>
+                    }
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

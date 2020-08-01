@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using web_fitness.Data;
@@ -13,9 +14,11 @@ namespace web_fitness.Controllers
     public class TrainersController : Controller
     {
         private readonly fitnessdataContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public TrainersController(fitnessdataContext context)
+        public TrainersController(fitnessdataContext context, UserManager<ApplicationUser> userManager)
         {
+            _userManager = userManager;
             _context = context;
         }
 
@@ -154,7 +157,6 @@ namespace web_fitness.Controllers
         }
 
         // POST: Trainers/Delete/5
-        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
@@ -163,6 +165,19 @@ namespace web_fitness.Controllers
             _context.AspNetUsers.Remove(trainer);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        // GET: Meetings
+        [Authorize(Roles = "Trainer")]
+        public async Task<IActionResult> Meetings()
+        {
+            var trainerId = _userManager.GetUserId(User);
+            List<Meeting> meetings = await _context.Meetings
+                    .Include(m => m.TrainType)
+                    .Include(m => m.Trainer)
+                    .Where(m => m.TrainerID == trainerId)
+                    .ToListAsync();
+            return View(meetings);
         }
 
         private bool TrainerExists(string id)
