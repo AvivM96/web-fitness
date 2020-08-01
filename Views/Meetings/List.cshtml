@@ -34,27 +34,33 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Price)
                 </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Trainer.City)
+                </th>
                 <th></th>
             </tr>
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.MeetID)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TrainingTypeID)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Trainer.FirstName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.MeetDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Price)
-                    </td>
-                </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MeetID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TrainingTypeID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Trainer.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MeetDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Trainer.City)
+            </td>
+        </tr>
             }
         </table>
     </div>
