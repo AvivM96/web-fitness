@@ -44,14 +44,14 @@ namespace web_fitness.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return View("~/Views/Home/Index.cshtml");
             }
 
             var trainingType = await _context.TrainingTypes
                 .FirstOrDefaultAsync(m => m.TrainingTypeId == id);
             if (trainingType == null)
             {
-                return NotFound();
+                return View("~/Views/Home/Index.cshtml");
             }
 
             return View(trainingType);
@@ -86,13 +86,13 @@ namespace web_fitness.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return View("~/Views/Home/Index.cshtml");
             }
 
             var trainingType = await _context.TrainingTypes.FindAsync(id);
             if (trainingType == null)
             {
-                return NotFound();
+                return View("~/Views/Home/Index.cshtml");
             }
             return View(trainingType);
         }
@@ -116,7 +116,7 @@ namespace web_fitness.Controllers
                 {
                     if (!TrainingTypeExists(trainingType.TrainingTypeId))
                     {
-                        return NotFound();
+                        return View("~/Views/Home/Index.cshtml");
                     }
                     else
                     {
@@ -134,14 +134,14 @@ namespace web_fitness.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return View("~/Views/Home/Index.cshtml");
             }
 
             var trainingType = await _context.TrainingTypes
                 .FirstOrDefaultAsync(m => m.TrainingTypeId == id);
             if (trainingType == null)
             {
-                return NotFound();
+                return View("~/Views/Home/Index.cshtml");
             }
 
             return View(trainingType);
