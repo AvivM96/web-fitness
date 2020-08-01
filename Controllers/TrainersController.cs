@@ -25,6 +25,20 @@ namespace web_fitness.Controllers
             List<ApplicationUser> trainers = await _context.AspNetUsers.Where(user => user.IsTrainer).ToListAsync();
             return View(trainers);
         }
+        public async Task<IActionResult> Search(string searchString)
+        {
+            var users = from a in _context.AspNetUsers.Where(user => user.IsTrainer)
+                        select a;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                users = users.Where(s => s.City.Contains(searchString) || s.Gender.Contains(searchString) || s.FirstName.Contains(searchString) || s.LastName.Contains(searchString) || s.Email.Contains(searchString) || s.Address.Contains(searchString) || s.PhoneNumber.Contains(searchString));
+            }
+            var ids = users.Select(s => s.Id);
+            List<ApplicationUser> usersToShow = await _context.AspNetUsers.Where(x => ids.Contains(x.Id)).ToListAsync();
+
+            return View("~/Views/Trainers/index.cshtml", usersToShow);
+        }
+
 
         // GET: Trainers/Details/5
         public async Task<IActionResult> Details(string? id)

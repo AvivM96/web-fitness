@@ -13,75 +13,95 @@
     </p>
 }
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LastName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PhoneNumber)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Gender)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Address)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.City)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PhoneNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Gender)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.City)
-            </td>
-            <td>
-                @if (this.User.IsInRole("Admin"))
-                {
-                    <span>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
 
-                    </span>
-                }
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
-                @if (this.User.IsInRole("Admin"))
-                {
-                    <span>
-                        | <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                    </span>
-                }
-            </td>
-        </tr>
-        }
-    </tbody>
-</table>
+<div id="table">
+    <h3 class="headline">All Users</h3>
+    <br />
+    <div class="firstSearch">
+        <form asp-controller="Trainers" asp-action="Search" class="form-group">
+            <div class="col-sm-6">
+                <input class="form-control blackBorder" type="text" name="SearchString" placeholder="Search">
+            </div>
+            <button type="submit" class="btn btn-default submitButtons">Search</button>
+        </form>
+    </div>
+    <br />
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Email)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LastName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PhoneNumber)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Gender)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Address)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.City)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PhoneNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Gender)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Address)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.City)
+                    </td>
+                    <td>
+                        @if (this.User.IsInRole("Admin"))
+                        {
+                            <span>
+                                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+
+                            </span>
+                        }
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                        @if (this.User.IsInRole("Admin"))
+                        {
+                            <span>
+                                | <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                            </span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @if (ViewBag.err != "" && ViewBag.err != null)
+    {
+        <p style="display: inline-block;"> @ViewBag.err </p>
+    }
+
+</div>
