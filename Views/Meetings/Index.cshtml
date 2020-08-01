@@ -9,58 +9,84 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.MeetID)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Trainer)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TrainType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MeetDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Trainer.FirstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.MeetID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Trainer.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TrainType.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MeetDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Trainer.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.MeetID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.MeetID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.MeetID })
-            </td>
+<div id="table">
 
-        </tr>
-}
-    </tbody>
-</table>
+
+    <br />
+    <br />
+    <br />
+    <div class="secondSearch blackBorder">
+        <form class="form-inline" asp-controller="Meetings" asp-action="MultipleSearch" style="float:left;">
+            <input id="StartDate" class="form-control blackBorder" type="date" name="startDate" placeholder="StartDate">
+            <input class="form-control blackBorder" type="text" id="city" placeholder="City" name="city">
+            <input class="form-control blackBorder" type="number" min="0" id="price" placeholder="Maximum Price" name="price">
+            <button type="submit" class="btn btn-default submitButtons" id="search">Search</button>
+        </form>
+    </div>
+
+    <br />
+    <table class="table">
+
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.MeetID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Trainer)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TrainType)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MeetDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Trainer.FirstName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Price)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Trainer.City)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MeetID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Trainer.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TrainType.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MeetDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Trainer.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Trainer.City)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.MeetID }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.MeetID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.MeetID })
+                </td>
+
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
