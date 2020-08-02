@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using web_fitness.Data;
 using TweetSharp;
+using web_fitness.MeetingsClusterer;
 using web_fitness.Models;
 using System;
 using Microsoft.AspNetCore.Authorization;
@@ -17,11 +18,14 @@ namespace web_fitness.Controllers
     {
         private readonly fitnessdataContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly Clusterer _clusterer;
 
         public MeetingsController(fitnessdataContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _userManager = userManager;
+            _clusterer = new Clusterer(_context);
+            _clusterer.CreateModel();
             TrainbyCityGraph();
             CountMeetingbyTypeGraph();
         }
@@ -70,6 +74,20 @@ namespace web_fitness.Controllers
                 ViewData["AccessDenied"] = true;
             }
 
+
+            try
+            {
+                MeetingPrediction prediction = _clusterer.Predict(meeting);
+                List<Meeting> MeetingsInSameCluster = await GetMeetingsInCluster(prediction.PredictedClusterId);
+                MeetingsInSameCluster.Remove(meeting);
+                ViewBag.otherMeetings = MeetingsInSameCluster;
+            }
+            catch
+            {
+                Console.Write("failed to cluster");
+            }
+
+
             return View(meeting);
         }
 
@@ -101,7 +119,7 @@ namespace web_fitness.Controllers
             var traintype = await _context.TrainingTypes
                .FirstOrDefaultAsync(m => m.TrainingTypeId == meeting.TrainingTypeID);
             string message = string.Format("New {0} meeting is available at {1}", traintype.Name, meeting.MeetDate.Date);
-            var result = service.SendTweet(new SendTweetOptions 
+            var result = service.SendTweet(new SendTweetOptions
             {
                 Status = message
             });
@@ -240,11 +258,11 @@ namespace web_fitness.Controllers
             {
                 if (!String.IsNullOrEmpty(typename))
                 {
-                    meeting = meeting.Where(s => s.Name.Equals(typename));
+                    meeting = meeting.Where(s => s.Name.Contains(typename));
                 }
                 if (!String.IsNullOrEmpty(city))
                 {
-                    meeting = meeting.Where(s => s.City.Equals(city));
+                    meeting = meeting.Where(s => s.City.Contains(city));
                 }
                 if (!String.IsNullOrEmpty(price))
                 {
@@ -331,6 +349,25 @@ namespace web_fitness.Controllers
             catch
             {
             }
+        }
+        async private Task<List<Meeting>> GetMeetingsInCluster(uint clusterId)
+        {
+            List<Meeting> meetings_in_same_cluster = new List<Meeting>();
+            foreach (Meeting m in await _context.Meetings.ToListAsync())
+            {
+                try
+                {
+                    MeetingPrediction meetingPrediction = _clusterer.Predict(m);
+                    if (meetingPrediction.PredictedClusterId == clusterId)
+                        meetings_in_same_cluster.Add(m);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
+            }
+
+            return meetings_in_same_cluster;
         }
 
         private SelectList GetRelevantTrainersToSelect() {

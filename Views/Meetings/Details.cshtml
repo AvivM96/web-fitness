@@ -1,4 +1,4 @@
-﻿@model web_fitness.Models.Meeting
+@model web_fitness.Models.Meeting
 
 @{
     ViewData["Title"] = "Details";
@@ -72,3 +72,21 @@
     }
     <a asp-action="Index">Back to List</a>
 </div>
+
+@if (@ViewBag.otherMeetings != null)
+{
+    <div id="otherMeetings" style="padding-right: 0; width: 40%; float: right; top: 24%;
+    position: absolute;
+    right: 0;">
+        <div style="position:center !important; font-size: 18px; font-weight: bold;">Recommended for you</div>
+        @foreach (var item in @ViewBag.otherMeetings)
+        {
+            <tr>
+                <td>
+                    <a style="display: block; width: 100%; position:relative; margin: 5px;" asp-action="Details" asp-route-id="@item.MeetID" class="backButton">@item.MeetID</a>
+                </td>
+            </tr>
+        }
+    </div>
+}
+

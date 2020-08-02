@@ -13,6 +13,7 @@
     <Compile Remove="Migrations\20200626094602_init.Designer.cs" />
     <Compile Remove="Migrations\20200717091934_init.cs" />
     <Compile Remove="Migrations\20200717091934_init.Designer.cs" />
+    <PackageReference Include="Microsoft.ML" Version="1.5.1" />
     <PackageReference Include="Microsoft.NETCore.App" Version="2.2.8" />
     <PackageReference Include="TweetSharp" Version="2.3.1" />
   </ItemGroup>
