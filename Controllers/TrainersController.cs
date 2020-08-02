@@ -53,15 +53,15 @@ namespace web_fitness.Controllers
             {
                 if (!String.IsNullOrEmpty(fname))
                 {
-                    trainer = trainer.Where(s => s.FirstName.Equals(fname));
+                    trainer = trainer.Where(s => s.FirstName.Contains(fname));
                 }
                 if (!String.IsNullOrEmpty(city))
                 {
-                    trainer = trainer.Where(s => s.City.Equals(city));
+                    trainer = trainer.Where(s => s.City.Contains(city));
                 }
                 if (!String.IsNullOrEmpty(gender))
                 {
-                    trainer = trainer.Where(s => s.Gender.Equals(gender));
+                    trainer = trainer.Where(s => s.Gender.Contains(gender));
                 }
                 if (!String.IsNullOrEmpty(phonenumber))
                 {
