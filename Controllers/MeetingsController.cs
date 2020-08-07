@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +11,9 @@ using web_fitness.Models;
 using System;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using System.Net.Http;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace web_fitness.Controllers
 {
@@ -19,6 +22,7 @@ namespace web_fitness.Controllers
         private readonly fitnessdataContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly Clusterer _clusterer;
+        private static readonly HttpClient client = new HttpClient();
 
         public MeetingsController(fitnessdataContext context, UserManager<ApplicationUser> userManager)
         {
@@ -28,6 +32,8 @@ namespace web_fitness.Controllers
             _clusterer.CreateModel();
             TrainbyCityGraph();
             CountMeetingbyTypeGraph();
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Add("User-Agent", ".NET Foundation Repository Reporter");
         }
 
 
@@ -86,8 +92,7 @@ namespace web_fitness.Controllers
             {
                 Console.Write("failed to cluster");
             }
-
-
+            await getMeetingCoordinates(meeting.Trainer.Address, meeting.Trainer.City);
             return View(meeting);
         }
 
@@ -379,6 +384,22 @@ namespace web_fitness.Controllers
             }
 
             return new SelectList(_context.AspNetUsers.Where(t => t.IsTrainer).ToList(), "Id", "Email");
+        }
+
+        private async Task getMeetingCoordinates(string address, string city)
+        {
+           
+            string completeAddress = address + "," + city;
+            string apiKey = "16e1cbdfd87d0a";
+            string requestUrl = "https://eu1.locationiq.com/v1/search.php?key=" + apiKey + "&q=" + completeAddress + "&format=json";
+
+            HttpResponseMessage response = await client.GetAsync(requestUrl);
+            HttpContent responseContent = response.Content;
+            using var reader = new StreamReader(await responseContent.ReadAsStreamAsync());
+            String json = await reader.ReadToEndAsync();
+            List<Location> coordinates = JsonConvert.DeserializeObject<List<Location>>(json);
+            ViewBag.lat = coordinates[0].lat;
+            ViewBag.lng = coordinates[0].lon;
         }
 
     }
