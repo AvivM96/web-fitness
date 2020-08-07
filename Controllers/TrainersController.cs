@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using web_fitness.Data;
 using web_fitness.Models;
+using web_fitness.Controllers;
 
 namespace web_fitness.Controllers
 {
@@ -20,6 +21,9 @@ namespace web_fitness.Controllers
         {
             _userManager = userManager;
             _context = context;
+            MeetingsController x = new MeetingsController(context,userManager);
+           // x.CountMeetingbyTypeGraph();
+           // x.TrainbyCityGraph();
         }
 
         // GET: Trainers
