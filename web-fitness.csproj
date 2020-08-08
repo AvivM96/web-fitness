@@ -43,6 +43,8 @@
 
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="wwwroot\Videos\" />
+    <Folder Include="wwwroot\graph_data\" />
   </ItemGroup>
 
   <ItemGroup>

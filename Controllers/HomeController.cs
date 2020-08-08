@@ -28,6 +28,12 @@ namespace web_fitness.Controllers
             return View();
         }
 
+        public IActionResult Video()
+        {
+            return View();
+        }
+
+
         public IActionResult Index()
         {
 

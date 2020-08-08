@@ -1,0 +1,16 @@
+﻿
+@{
+    ViewData["Title"] = "Video";
+}
+    <section class="newForm">
+        <div class="col-md-8" align="right">
+            <video style="width:100%; height:auto" controls>
+                <source src="@Url.Content("~/videos/webapp_preview.mp4")" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+
+        </div>
+        <div style="padding-top: 5%">
+            <a asp-action="Index">Back to home page</a>
+        </div>
+    </section>
