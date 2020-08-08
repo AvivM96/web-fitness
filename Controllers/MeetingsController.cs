@@ -126,7 +126,7 @@ namespace web_fitness.Controllers
             TwitterUser user = service.VerifyCredentials(new VerifyCredentialsOptions());
             var traintype = await _context.TrainingTypes
                .FirstOrDefaultAsync(m => m.TrainingTypeId == meeting.TrainingTypeID);
-            string message = string.Format("New {0} meeting is available at {1}", traintype.Name, meeting.MeetDate.Date);
+            string message = string.Format("New {0} meeting is available at {1} {2}", traintype.Name, meeting.MeetDate.ToShortDateString(), meeting.MeetDate.ToShortTimeString());
             var result = service.SendTweet(new SendTweetOptions
             {
                 Status = message
