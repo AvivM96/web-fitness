@@ -14,7 +14,6 @@ using Microsoft.AspNetCore.Identity;
 using System.Net.Http;
 using System.IO;
 using Newtonsoft.Json;
-using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
 
 namespace web_fitness.Controllers
 {
@@ -24,6 +23,8 @@ namespace web_fitness.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly Clusterer _clusterer;
         private static readonly HttpClient client = new HttpClient();
+        static readonly string trainByCityPath = Path.Combine(Environment.CurrentDirectory, "wwwroot", "graph_data", "TrainbyCity.csv");
+        static readonly string CountMeetingsPath = Path.Combine(Environment.CurrentDirectory, "wwwroot", "graph_data", "CountMeetingbyType.csv");
 
         public MeetingsController(fitnessdataContext context, UserManager<ApplicationUser> userManager)
         {
@@ -31,6 +32,7 @@ namespace web_fitness.Controllers
             _userManager = userManager;
             _clusterer = new Clusterer(_context);
             _clusterer.CreateModel();
+
             TrainbyCityGraph();
             CountMeetingbyTypeGraph();
             client.DefaultRequestHeaders.Accept.Clear();
@@ -307,13 +309,12 @@ namespace web_fitness.Controllers
                                    key = city_count.Key,
                                    Count = city_count.Count()
                                };
-            string path = "wwwroot\\TrainbyCity.csv";
             try
             {
-                System.IO.StreamWriter writer;
-                System.IO.FileStream file = System.IO.File.Open(path, System.IO.FileMode.OpenOrCreate);
+                StreamWriter writer;
+                FileStream file = System.IO.File.Open(trainByCityPath, FileMode.OpenOrCreate);
                 file.Close();
-                writer = new System.IO.StreamWriter(path);
+                writer = new StreamWriter(trainByCityPath);
                 writer.Write("City" + "," + "train\n");
                 foreach (var s in trainPerCity)
                 {
@@ -341,13 +342,13 @@ namespace web_fitness.Controllers
                                     key = meetings_count.Key,
                                     Count = meetings_count.Count()
                                 };
-            string path = "wwwroot\\CountMeetingbyType.csv";
+
             try
             {
-                System.IO.StreamWriter writer;
-                System.IO.FileStream file = System.IO.File.Open(path, System.IO.FileMode.OpenOrCreate);
+                StreamWriter writer;
+                FileStream file = System.IO.File.Open(CountMeetingsPath, FileMode.OpenOrCreate);
                 file.Close();
-                writer = new System.IO.StreamWriter(path);
+                writer = new StreamWriter(CountMeetingsPath);
                 writer.Write("Training_type" + "," + "AmountOfMeetings\n");
                 foreach (var a in MeetingbyType)
                 {

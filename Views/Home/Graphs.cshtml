@@ -28,7 +28,7 @@
                 .attr("transform",
                     "translate(" + margin.left + "," + margin.top + ")");
             // Parse the Data
-            d3.csv("/TrainbyCity.csv", function (data) {
+            d3.csv("/graph_data/TrainbyCity.csv", function (data) {
                 // sort the data
                 data.sort(function (b, a) {
                     return a.train - b.train;
@@ -98,7 +98,7 @@
                 .append("g")
                 .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
             // Parse the Data
-            d3.csv("/CountMeetingbyType.csv", function (data) {
+            d3.csv("/graph_data/CountMeetingbyType.csv", function (data) {
                 // Add X axis
                 var x2 = d3.scaleLinear()
                     .domain([0, 10])
