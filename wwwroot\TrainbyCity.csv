@@ -1,5 +1,11 @@
 City,train
+<<<<<<< Updated upstream
 Bat Yam,5
 Rishon Leziyon,3
 Tel Aviv,3
 Tel aviv,4
+=======
+Bat Yam,8
+Rishon Leziyon,3
+Tel aviv,1
+>>>>>>> Stashed changes

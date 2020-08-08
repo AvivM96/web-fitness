@@ -1,7 +1,12 @@
 Training_type,AmountOfMeetings
+<<<<<<< Updated upstream
 HIIT,2
 KickBox,2
 Pilates,1
 TRX,3
 Tabata,6
 Yoga,1
+=======
+TRX,3
+Tabata,9
+>>>>>>> Stashed changes

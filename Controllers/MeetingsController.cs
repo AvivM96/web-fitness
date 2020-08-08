@@ -332,7 +332,7 @@ namespace web_fitness.Controllers
 
         public void CountMeetingbyTypeGraph() //create data for the second graph
         {
-            //calculate the amount of apartments by the number of rooms
+            //calculate the amount of meetings by the number of training types
             var MeetingbyType = from s in _context.Meetings
                                 join ty in _context.TrainingTypes
                                 on s.TrainingTypeID equals ty.TrainingTypeId

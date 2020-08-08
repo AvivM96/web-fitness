@@ -3,6 +3,72 @@
 @{
     ViewData["Title"] = "Meetings";
 }
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script>$(document).ready(() => {
+        $('#closeToast').click(() => $('.toast').toast('hide'));
+        $('#StartDate').prop('value', new Date().toLocaleDateString('en-CA'));
+
+        const validate = () => {
+
+            let isError = false;
+            const errorsList = $('<ul/>');
+
+            // Validate Price
+            const numbersRegex = /^[0-9]+$/; // only numbers
+            const price = $('#Price').val();
+
+            if (price && !price.match(numbersRegex)) {
+                const error = $('<li/>').text('Price can only contain numbers');
+                errorsList.append(error);
+                isError = true;
+            }
+
+            if (price && Number.isInteger(price) && price < 0) {
+                const error = $('<li/>').text('Price can only be a positive number');
+                errorsList.append(error);
+                isError = true;
+            }
+
+
+            // Validate City
+
+            const city = $('#City').val();
+            const textRegext = /^[a-zA-Z ]*$/; // only text
+
+            if (city && !city.match(textRegext)) {
+                const error = $('<li/>').text('City can only contain letters');
+                errorsList.append(error);
+                isError = true;
+            }
+
+            if (isError) {
+                $('.toast').toast('show')
+                $('#toastBody').html(errorsList);
+                $('#search').prop('disabled', true)
+            } else {
+                $('#search').prop('disabled', false);
+            }
+        };
+
+        $('#Price').change(validate);
+        $('#City').change(validate);
+
+    });</script>
+
+<div aria-live="polite" aria-atomic="true" style="position: relative;">
+    <div class="toast" style="position: fixed; top: 86px; right: 24px;" data-delay="5000">
+        <div class="toast-header">
+            <strong class="mr-auto">Web Fitness</strong>
+            <small>Error</small>
+            <button id="closeToast" type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div id="toastBody" class="toast-body text-danger">
+        </div>
+    </div>
+</div>
+
 
 <h1>Meetings</h1>
 
@@ -15,9 +81,9 @@
 
 <form class="form-inline" asp-controller="Meetings" asp-action="MultipleSearch" style="float:left;">
     <input id="StartDate" class="form-control blackBorder mr-2" type="date" name="startDate" placeholder="StartDate">
-    <input class="form-control blackBorder mr-2" type="text" id="city" placeholder="City" name="city">
+    <input id="City" class="form-control blackBorder mr-2" type="text" id="city" placeholder="City" name="city">
     <input class="form-control blackBorder mr-2" type="text" id="Method" placeholder="Method" name="typename">
-    <input class="form-control blackBorder mr-2" type="number" min="0" id="price" placeholder="Maximum Price" name="price">
+    <input id="Price" class="form-control blackBorder mr-2" type="number" min="0" id="price" placeholder="Maximum Price" name="price">
     <button type="submit" class="btn btn-dark submitButtons" id="search">Search</button>
 </form>
 

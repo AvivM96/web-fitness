@@ -10,7 +10,7 @@ using System.Text;
 
 namespace web_fitness.Models
 {
-public class Meeting
+public class Meeting : IValidatableObject
     {
         [Key]
         public int MeetID { get; set; }
@@ -25,10 +25,21 @@ public class Meeting
         public DateTime MeetDate { get; set; }
 
         [Required]
-        [Range(0, 10000000000)]
+        [Range(0, 1000)]
         public int Price { get; set; }
 
 
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            List<ValidationResult> results = new List<ValidationResult>();
+
+            if (MeetDate < DateTime.Now)
+            {
+                results.Add(new ValidationResult("Can not create meeting with past date", new[] { "MeetDate" }));
+            }
+
+            return results;
+        }
 
         public ApplicationUser Trainer { get; set; }
         public TrainingType TrainType { get; set; }
