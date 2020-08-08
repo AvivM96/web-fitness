@@ -27,13 +27,7 @@ public class Meeting
         [Required]
         [Range(0, 10000000000)]
         public int Price { get; set; }
-        public int MyHash (int a,int b, DateTime c)
-        {
-            var byteArr = Encoding.ASCII.GetBytes(a.ToString() + c.ToString()+ b.ToString()  );
-            var sha = new SHA1CryptoServiceProvider();
-            var res = sha.ComputeHash(byteArr);
-            return Int32.Parse(res.ToString());
-        }
+
 
 
         public ApplicationUser Trainer { get; set; }

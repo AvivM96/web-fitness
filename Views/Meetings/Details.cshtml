@@ -96,12 +96,12 @@
     <div id="otherMeetings" style="padding-right: 0; width: 40%; float: right; top: 24%;
     position: absolute;
     right: 0;">
-        <div style="position:center !important; font-size: 18px; font-weight: bold;">Recommended for you</div>
+        <div class="pt-3" style="position:center !important; font-size: 18px; font-weight: bold;">Recommended for you</div>
         @foreach (var item in @ViewBag.otherMeetings)
         {
             <tr>
                 <td>
-                    <a style="display: block; width: 100%; position:relative; margin: 5px;" asp-action="Details" asp-route-id="@item.MeetID" class="backButton">@item.MeetID</a>
+                    <a style="display: block; width: 100%; position:relative; margin: 5px;" asp-action="Details" asp-route-id="@item.MeetID" class="backButton">Meeting number @item.MeetID : @item.TrainType.Name with  @item.Trainer.FirstName </a>
                 </td>
             </tr>
         }

@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Identity;
 using System.Net.Http;
 using System.IO;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
 
 namespace web_fitness.Controllers
 {
@@ -183,7 +184,12 @@ namespace web_fitness.Controllers
                         return View(meeting);
                     }
 
-                    _context.Update(meeting);
+                    var meeting2 = await _context.Meetings.Include(m => m.TrainType).Include(m => m.Trainer).FirstOrDefaultAsync(m => m.MeetID == id);
+                    meeting2.Price = meeting.Price;
+                    meeting2.MeetDate = meeting.MeetDate;
+                    meeting2.TrainingTypeID = meeting.TrainingTypeID;
+                    meeting2.TrainerID = meeting.TrainerID;
+                    _context.Update(meeting2);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -358,12 +364,13 @@ namespace web_fitness.Controllers
         async private Task<List<Meeting>> GetMeetingsInCluster(uint clusterId)
         {
             List<Meeting> meetings_in_same_cluster = new List<Meeting>();
-            foreach (Meeting m in await _context.Meetings.ToListAsync())
+            foreach (Meeting m in await _context.Meetings.Include(m=> m.Trainer).Include(m=>m.TrainType).ToListAsync())
             {
                 try
                 {
                     MeetingPrediction meetingPrediction = _clusterer.Predict(m);
                     if (meetingPrediction.PredictedClusterId == clusterId)
+                        
                         meetings_in_same_cluster.Add(m);
                 }
                 catch (Exception e)
