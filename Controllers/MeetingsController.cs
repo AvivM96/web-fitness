@@ -118,26 +118,41 @@ namespace web_fitness.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("MeetID,TrainingTypeID,TrainerID,MeetDate,Price")] Meeting meeting, string oauth_token, string oauth_verifier)
         {
-
-            string key = "r6tXd2oaTFEqADpqI7GwsiR5o";
-            string secret = "6vqMDzhw0KmSiHXa7VXGARMc8FyEBIxK6EK52XyA6EopEIos4H";
-            string token = "1288845984898994179-vGxfZsfSKO2RpkQpdD3KcCTzoze9C1";
-            string tokenSecret = "9xRofqqaVXfTaF8lChqBFlWbHwnnsdy9wN3xCPyr7BPRQ";
-            var service = new TweetSharp.TwitterService(key, secret);
-            service.AuthenticateWith(token, tokenSecret);
-            TwitterUser user = service.VerifyCredentials(new VerifyCredentialsOptions());
-            var traintype = await _context.TrainingTypes
-               .FirstOrDefaultAsync(m => m.TrainingTypeId == meeting.TrainingTypeID);
-            string message = string.Format("New {0} meeting is available at {1} {2}", traintype.Name, meeting.MeetDate.ToShortDateString(), meeting.MeetDate.ToShortTimeString());
-            var result = service.SendTweet(new SendTweetOptions
-            {
-                Status = message
-            });
-
             if (ModelState.IsValid)
             {
+
+                var trainer = await _context.AspNetUsers.FindAsync(meeting.TrainerID);
+                if (trainer == null)
+                {
+                    ViewData["NotFound"] = "The requested trainer is no longer available";
+                    return View("~/Views/Home/Index.cshtml");
+                }
+                var trainingType = await _context.TrainingTypes.FindAsync(meeting.TrainingTypeID);
+                if (trainingType == null)
+                {
+                    ViewData["NotFound"] = "The requested trainning method is no longer available";
+                    return View("~/Views/Home/Index.cshtml");
+                }
+
                 _context.Add(meeting);
                 await _context.SaveChangesAsync();
+
+                string key = "r6tXd2oaTFEqADpqI7GwsiR5o";
+                string secret = "6vqMDzhw0KmSiHXa7VXGARMc8FyEBIxK6EK52XyA6EopEIos4H";
+                string token = "1288845984898994179-vGxfZsfSKO2RpkQpdD3KcCTzoze9C1";
+                string tokenSecret = "9xRofqqaVXfTaF8lChqBFlWbHwnnsdy9wN3xCPyr7BPRQ";
+                var service = new TweetSharp.TwitterService(key, secret);
+                service.AuthenticateWith(token, tokenSecret);
+                TwitterUser user = service.VerifyCredentials(new VerifyCredentialsOptions());
+                var traintype = await _context.TrainingTypes
+                   .FirstOrDefaultAsync(m => m.TrainingTypeId == meeting.TrainingTypeID);
+                string message = string.Format("New {0} meeting is available at {1} {2}", traintype.Name, meeting.MeetDate.ToShortDateString(), meeting.MeetDate.ToShortTimeString());
+                var result = service.SendTweet(new SendTweetOptions
+                {
+                    Status = message
+                });
+
+
                 return RedirectToAction(nameof(Index));
             }
             ViewData["TrainingTypeID"] = new SelectList(_context.TrainingTypes, "TrainingTypeId", "Name");
