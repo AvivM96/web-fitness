@@ -193,6 +193,7 @@ namespace web_fitness.Controllers
 
             var trainer = await _context.AspNetUsers
                 .FirstOrDefaultAsync(m => m.Id == id && m.IsTrainer);
+
             if (trainer == null)
             {
                 ViewData["NotFound"] = "The requested trainer is no longer available";
@@ -208,6 +209,7 @@ namespace web_fitness.Controllers
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var trainer = await _context.AspNetUsers.FindAsync(id);
+            _context.Meetings.RemoveRange(_context.Meetings.Where(m => m.TrainerID == trainer.Id));
             _context.AspNetUsers.Remove(trainer);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
