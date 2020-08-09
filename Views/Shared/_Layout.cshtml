@@ -14,7 +14,7 @@
     <script>var fireError = () => { };
 
         $(document).ready(() => {
-            $('#closeToast').click(() => $('.toast').toast('hide'));
+            $('#closeToast').click(() => $('#mainToast').toast('hide'));
 
             fireError = (text) => {
 
@@ -29,14 +29,14 @@
     {
         <script>
         $(document).ready(() => {
-            $('#toastBody').text("@ViewData["NotFound"]");
-            $('.toast').toast('show');
+            $('#mainToastBody').text("@ViewData["NotFound"]");
+            $('#mainToast').toast('show');
         });
         </script>
     }
 
     <div aria-live="polite" aria-atomic="true" style="position: relative;">
-        <div class="toast" style="position: fixed; top: 86px; right: 24px;" data-delay="10000">
+        <div id="mainToast" class="toast" style="position: fixed; top: 86px; right: 24px;" data-delay="10000">
             <div class="toast-header">
                 <strong class="mr-auto">Web Fitness</strong>
                 <small>Error</small>
@@ -44,7 +44,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div id="toastBody" class="toast-body text-danger pr-4 mr-3">
+            <div id="mainToastBody" class="toast-body text-danger pr-4 mr-3">
             </div>
         </div>
     </div>

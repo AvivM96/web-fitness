@@ -5,7 +5,7 @@
 }
 <script src="~/lib/jquery/dist/jquery.js"></script>
 <script>$(document).ready(() => {
-        $('#closeToast').click(() => $('.toast').toast('hide'));
+    $('#closeToast').click(() => $('#modelToast').toast('hide'));
         $('#StartDate').prop('value', new Date().toLocaleDateString('en-CA'));
 
         const validate = () => {
@@ -42,8 +42,8 @@
             }
 
             if (isError) {
-                $('.toast').toast('show')
-                $('#toastBody').html(errorsList);
+                $('#modelToast').toast('show')
+                $('#modelToastBody').html(errorsList);
                 $('#search').prop('disabled', true)
             } else {
                 $('#search').prop('disabled', false);
@@ -56,7 +56,7 @@
     });</script>
 
 <div aria-live="polite" aria-atomic="true" style="position: relative;">
-    <div class="toast" style="position: fixed; top: 86px; right: 24px;" data-delay="10000">
+    <div id="modelToast" class="toast" style="position: fixed; top: 86px; right: 24px;" data-delay="10000">
         <div class="toast-header">
             <strong class="mr-auto">Web Fitness</strong>
             <small>Error</small>
@@ -64,7 +64,7 @@
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
-        <div id="toastBody" class="toast-body text-danger pr-4 mr-3">
+        <div id="modelToastBody" class="toast-body text-danger pr-4 mr-3">
         </div>
     </div>
 </div>
