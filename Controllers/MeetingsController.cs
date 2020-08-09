@@ -184,7 +184,8 @@ namespace web_fitness.Controllers
             {
                 try
                 {
-                    if(User.IsInRole("Trainer") && meeting.TrainerID != this._userManager.GetUserId(User))
+                    var existingMeeting = await _context.Meetings.FirstOrDefaultAsync(m => m.MeetID == id);
+                    if(User.IsInRole("Trainer") && existingMeeting != null && existingMeeting.TrainerID != this._userManager.GetUserId(User))
                     {
                         ViewData["AccessDenied"] = true;
                         return View(meeting);

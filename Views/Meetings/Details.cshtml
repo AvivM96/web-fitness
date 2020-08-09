@@ -65,7 +65,7 @@
     </dl>
 </div>
 <div>
-    @if (ViewData["AccessDenied"] == null)
+    @if (ViewData["AccessDenied"] == null && (this.User.IsInRole("Admin") || this.User.IsInRole("Trainer")))
     {
         <span>
             @Html.ActionLink("Edit", "Edit", new { id = Model.MeetID }) |
