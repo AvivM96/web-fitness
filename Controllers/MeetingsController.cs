@@ -65,6 +65,7 @@ namespace web_fitness.Controllers
         {
             if (id == null)
             {
+                ViewData["NotFound"] = "The requested meeting is no longer available";
                 return View("~/Views/Home/Index.cshtml");
             }
 
@@ -75,6 +76,7 @@ namespace web_fitness.Controllers
 
             if (meeting == null)
             {
+                ViewData["NotFound"] = "The requested meeting is no longer available";
                 return View("~/Views/Home/Index.cshtml");
             }
 
@@ -150,6 +152,7 @@ namespace web_fitness.Controllers
         {
             if (id == null)
             {
+                ViewData["NotFound"] = "The requested meeting is no longer available";
                 return View("~/Views/Home/Index.cshtml");
             }
 
@@ -160,6 +163,7 @@ namespace web_fitness.Controllers
 
              if (meeting == null)
             {
+                ViewData["NotFound"] = "The requested meeting is no longer available";
                 return View("~/Views/Home/Index.cshtml");
             }
 
@@ -198,6 +202,7 @@ namespace web_fitness.Controllers
                 {
                     if (!MeetingExists(meeting.MeetID))
                     {
+                        ViewData["NotFound"] = "The requested meeting is no longer available";
                         return View("~/Views/Home/Index.cshtml");
                     }
                     else
@@ -218,6 +223,7 @@ namespace web_fitness.Controllers
         {
             if (id == null)
             {
+                ViewData["NotFound"] = "The requested meeting is no longer available";
                 return View("~/Views/Home/Index.cshtml");
             }
 
@@ -227,6 +233,7 @@ namespace web_fitness.Controllers
                 .FirstOrDefaultAsync(m => m.MeetID == id);
             if (meeting == null)
             {
+                ViewData["NotFound"] = "The requested meeting is no longer available";
                 return View("~/Views/Home/Index.cshtml");
             }
 

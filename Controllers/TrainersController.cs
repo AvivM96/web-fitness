@@ -87,6 +87,7 @@ namespace web_fitness.Controllers
         {
             if (id == null)
             {
+                ViewData["NotFound"] = "The requested trainer is no longer available";
                 return View("~/Views/Home/Index.cshtml");
             }
 
@@ -95,6 +96,7 @@ namespace web_fitness.Controllers
 
             if (trainer == null)
             {
+                ViewData["NotFound"] = "The requested trainer is no longer available";
                 return View("~/Views/Home/Index.cshtml");
             }
 
@@ -134,12 +136,14 @@ namespace web_fitness.Controllers
         {
             if (id == null)
             {
+                ViewData["NotFound"] = "The requested trainer is no longer available";
                 return View("~/Views/Home/Index.cshtml");
             }
 
             var trainer = await _context.AspNetUsers.FindAsync(id);
             if (trainer == null)
             {
+                ViewData["NotFound"] = "The requested trainer is no longer available";
                 return View("~/Views/Home/Index.cshtml");
             }
             return View(trainer);
@@ -164,6 +168,7 @@ namespace web_fitness.Controllers
                 {
                     if (!TrainerExists(trainer.Id))
                     {
+                        ViewData["NotFound"] = "The requested trainer is no longer available";
                         return View("~/Views/Home/Index.cshtml");
                     }
                     else
@@ -182,6 +187,7 @@ namespace web_fitness.Controllers
         {
             if (id == null)
             {
+                ViewData["NotFound"] = "The requested trainer is no longer available";
                 return View("~/Views/Home/Index.cshtml");
             }
 
@@ -189,6 +195,7 @@ namespace web_fitness.Controllers
                 .FirstOrDefaultAsync(m => m.Id == id && m.IsTrainer);
             if (trainer == null)
             {
+                ViewData["NotFound"] = "The requested trainer is no longer available";
                 return View("~/Views/Home/Index.cshtml");
             }
 

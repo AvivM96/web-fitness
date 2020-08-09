@@ -44,6 +44,7 @@ namespace web_fitness.Controllers
         {
             if (id == null)
             {
+                ViewData["NotFound"] = "The requested trainning method is no longer available";
                 return View("~/Views/Home/Index.cshtml");
             }
 
@@ -51,6 +52,7 @@ namespace web_fitness.Controllers
                 .FirstOrDefaultAsync(m => m.TrainingTypeId == id);
             if (trainingType == null)
             {
+                ViewData["NotFound"] = "The requested trainning method is no longer available";
                 return View("~/Views/Home/Index.cshtml");
             }
 
@@ -86,12 +88,14 @@ namespace web_fitness.Controllers
         {
             if (id == null)
             {
+                ViewData["NotFound"] = "The requested trainning method is no longer available";
                 return View("~/Views/Home/Index.cshtml");
             }
 
             var trainingType = await _context.TrainingTypes.FindAsync(id);
             if (trainingType == null)
             {
+                ViewData["NotFound"] = "The requested trainning method is no longer available";
                 return View("~/Views/Home/Index.cshtml");
             }
             return View(trainingType);
@@ -116,6 +120,7 @@ namespace web_fitness.Controllers
                 {
                     if (!TrainingTypeExists(trainingType.TrainingTypeId))
                     {
+                        ViewData["NotFound"] = "The requested trainning method is no longer available";
                         return View("~/Views/Home/Index.cshtml");
                     }
                     else
@@ -134,6 +139,7 @@ namespace web_fitness.Controllers
         {
             if (id == null)
             {
+                ViewData["NotFound"] = "The requested trainning method is no longer available";
                 return View("~/Views/Home/Index.cshtml");
             }
 
@@ -141,6 +147,7 @@ namespace web_fitness.Controllers
                 .FirstOrDefaultAsync(m => m.TrainingTypeId == id);
             if (trainingType == null)
             {
+                ViewData["NotFound"] = "The requested trainning method is no longer available";
                 return View("~/Views/Home/Index.cshtml");
             }
 
